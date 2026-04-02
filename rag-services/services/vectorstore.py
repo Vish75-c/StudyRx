@@ -1,8 +1,6 @@
 import chromadb
-from chromadb.config import Settings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from services.embeddings import get_embeddings
-import os
 
 CHROMA_PATH = "./chromadb_store"
 
