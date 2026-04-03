@@ -1,5 +1,5 @@
 import Document from "../models/documentModel.js";
-import collectionsRoutes from "../routes/collections.js";
+import Collection from "../models/collectionModel.js";
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
