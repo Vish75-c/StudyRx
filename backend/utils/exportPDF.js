@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit"
-const exportChatAsPDF = (chat, res) => {
+export const exportChatAsPDF = (chat, res) => {
   const doc = new PDFDocument({ margin: 50 });
 
   res.setHeader("Content-Type", "application/pdf");

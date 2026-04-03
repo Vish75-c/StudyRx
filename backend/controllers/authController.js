@@ -48,7 +48,7 @@ export const login=async(req,res)=>{
     }
 }
 
-export default getMe=async (req,res)=>{
+export const getMe=async (req,res)=>{
     try {
         return res.json({_id:req.user._id,name:req.user.name,email:req.user.email});
     } catch (error) {
