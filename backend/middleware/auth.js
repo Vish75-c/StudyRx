@@ -1,20 +1,32 @@
 import jwt from "jsonwebtoken"
-import dotenv from 'dotenv'
-dotenv.config();
-export const verifyToken = (req, res, next) => {
+import User from "../models/userModel.js";
 
-    const token = req.cookies.jwt;
-    // console.log(token);
-    if (!token) return res.status(401).send("You are not authenticated")
-    jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
-        if (err) {
-            return res.status(401).send("Token is not valid")
-        } else {
-            req.userId = payload.userId;
-            // console.log(req.user);
-            next()
-        }
-    })
+const protect = async (req, res, next) => {
+  try {
+    let token;
 
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
 
-}
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, no token" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    next();
+  } catch (error) {
+    res.status(401).json({ message: "Not authorized, token failed" });
+  }
+};
+
+export default protect
