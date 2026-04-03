@@ -1,3 +1,4 @@
+import e from "express";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 
@@ -43,6 +44,39 @@ export const login=async(req,res)=>{
             token:generateToken(user._id),
         })
     } catch (error) {
-        
+        res.status(500).json({message:error.message});
     }
 }
+
+export default getMe=async (req,res)=>{
+    try {
+        return res.json({_id:req.user._id,name:req.user.name,email:req.user.email});
+    } catch (error) {
+        return res.status(500).json({message:error.message})
+    }
+};
+
+export const updatePassword=async (req,res)=>{
+    try {
+        const {currentPassword,newPassword}=req.body;
+        const user=await User.findById(req.user._id)
+        if(!(await user.comparePassword(currentPassword))){
+            return res.status(401).json({message:"Current Password is incorrect"})
+        }
+        user.password=newPassword;
+        await user.save()
+        res.json({message:"Password update successfully"})
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+};
+
+export const deleteAccount=async (req,res)=>{
+    try {
+        await User.findByAndDelete(req.user._id);
+        res.json({message:"Account deleted successfully"})
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+};
+
