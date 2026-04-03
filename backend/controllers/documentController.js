@@ -1,110 +1,122 @@
-import Documents from "../models/documentModel.js";
-import Collection from "../models/collectionModel.js"
-import axios from "axios"
-import fs from "fs"
-import FormData from "form-data"
+import Document from "../models/documentModel.js";
+import collectionsRoutes from "../routes/collections.js";
+import axios from "axios";
+import fs from "fs";
+import FormData from "form-data";
 
-
-const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000"
+const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000";
 
 export const uploadPDF = async (req, res) => {
+  try {
+    const { collectionId, documentName } = req.body;
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+
+    const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
+    if (!collection) return res.status(404).json({ message: "Collection not found" });
+
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(req.file.path));
+    formData.append("collection_id", collectionId);
+    formData.append("document_name", documentName || req.file.originalname);
+
+    await axios.post(`${RAG_URL}/ingest/pdf`, formData, { headers: formData.getHeaders() });
+
+    let summary = null;
     try {
-        const { collectionId, documentName } = req.body;
-        if (!req.file) return res.status(400).json({
-            message: "No file uploaded"
-        })
-        const collection = await Collection.findOne({
-            _id: collectionId, userId: req.user._id
-        })
-        if (!collection) return res.status(404).json({
-            message: "Collection not found"
-        })
+      const summaryRes = await axios.post(`${RAG_URL}/summarize/`, {
+        collection_id: collectionId,
+        document_name: documentName || req.file.originalname,
+      });
+      summary = summaryRes.data.summary;
+    } catch (_) {}
 
-        // Send to RAG SERVICE
-        const formData = new FormData();
-        formData.append("file", fs.createReadStream(req.file.path));
-        formData.append("collection_id", collectionId)
-        formData.append("document_name", documentName || req.file.originalname);
+    const document = await Document.create({
+      userId: req.user._id,
+      collectionId,
+      name: documentName || req.file.originalname,
+      type: "pdf",
+      source: req.file.originalname,
+      summary,
+    });
 
-        await axios.post(`${RAG}/ingest/pdf`, formData, {
-            headers: formData.getHeaders(),
-        })
+    await Collection.findByIdAndUpdate(collectionId, { $inc: { documentCount: 1 } });
+    fs.unlinkSync(req.file.path);
 
-        //Save to MongoDB
-        const document = await Document.create({
-            userId: req.user._id,
-            collectionId,
-            name: documentName || req.file.orignalname,
-            type: "pdf",
-            source: req.file.originalname,
-        })
-
-        // Update collection document count
-        await Collection.findByIdAndUpdate(collectionId, {
-            $inc: { documentCount: 1 }
-        });
-
-        // Remove temp file
-        fs.unlinkSync(req.file.path);
-        res.status(201).json(document)
-
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
+    res.status(201).json(document);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-export const uploadYoutube = async(req, res)=> {
-    try {
-        const { collectionId, url } = req.body;
-        if (!url) return res.status(400).json({ message: "YouTube URL is required" });
-        const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id })
-        if (!collection) return res.status(404).json({
-            message: "Collection not found"
-        });
-        await axios.post(`${RAG_URL}/ingest/youtube?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
+export const uploadURL = async (req, res) => {
+  try {
+    const { collectionId, url } = req.body;
+    if (!url) return res.status(400).json({ message: "URL is required" });
 
-        const document=await Document.create({
-            userId:req.user._id,
-            collectionId,
-            name:url,
-            type:"youtube",
-            source:url,
-        })
-        await Collection.findByIdAndUpdate(collectionId,{$inc:{documentCount:1}});
-        return res.status(201).json(document)
-    } catch (error) {
-        return res.status(500).json({message:error.message});
-    }
+    const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
+    if (!collection) return res.status(404).json({ message: "Collection not found" });
+
+    await axios.post(`${RAG_URL}/ingest/url?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
+
+    const document = await Document.create({
+      userId: req.user._id,
+      collectionId,
+      name: url,
+      type: "url",
+      source: url,
+    });
+
+    await Collection.findByIdAndUpdate(collectionId, { $inc: { documentCount: 1 } });
+    res.status(201).json(document);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-export const getDocuments=async (req,res)=>{
-    try {
-        const documents=await Documents.find({
-            collectionId:req.params.collectionId,
-            userId:req.user._id,
-        }).sort({createdAt:-1})
-        return res.json(documents)
-    } catch (error) {
-        return res.status(500).json({message:error.message})
-    }
-}
+export const uploadYoutube = async (req, res) => {
+  try {
+    const { collectionId, url } = req.body;
+    if (!url) return res.status(400).json({ message: "YouTube URL is required" });
 
+    const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
+    if (!collection) return res.status(404).json({ message: "Collection not found" });
 
-export const deleteDocument=async (req,res)=>{
-    try {
-        const document=await Document.findOneAndDelete({
-            _id:req.params._id,
-            userId:req.user._id,
-        });
-        if(!document)return res.status(404).json({
-            message:"Document not found"
-        })
+    await axios.post(`${RAG_URL}/ingest/youtube?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
 
-        await Collection.findByIdAndUpdate(document.collectionId,{
-            $inc:{documentCount:-1}
-        })
-        return res.json({message:"Document Deleted Successfully"})
-    } catch (error) {
-        return res.status(500).json({message:error.message});   
-    }
-}
+    const document = await Document.create({
+      userId: req.user._id,
+      collectionId,
+      name: url,
+      type: "youtube",
+      source: url,
+    });
+
+    await Collection.findByIdAndUpdate(collectionId, { $inc: { documentCount: 1 } });
+    res.status(201).json(document);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getDocuments = async (req, res) => {
+  try {
+    const documents = await Document.find({
+      collectionId: req.params.collectionId,
+      userId: req.user._id,
+    }).sort({ createdAt: -1 });
+    res.json(documents);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteDocument = async (req, res) => {
+  try {
+    const document = await Document.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+    if (!document) return res.status(404).json({ message: "Document not found" });
+    await Collection.findByIdAndUpdate(document.collectionId, { $inc: { documentCount: -1 } });
+    res.json({ message: "Document deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

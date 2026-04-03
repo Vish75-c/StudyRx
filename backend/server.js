@@ -4,6 +4,9 @@ import cors from "cors"
 import dotenv from "dotenv"
 import db from "./db.js"
 import authRoutes from "./routes/auth.js"
+import chatRoutes from "./routes/chat.js"
+import collectionsRoutes from "./routes/collections.js"
+import documentRoutes from "./routes/documents.js"
 import errorHandler from "./middleware/errorHandler.js"
 import fs from "fs"
 
@@ -21,6 +24,10 @@ app.use(express.urlencoded({extended:true}));
 
 // Routes
 app.use("/api/auth",authRoutes)
+app.use("/api/collections",collectionsRoutes)
+app.use("api/documents",documentRoutes)
+app.use("api/chat",chatRoutes)
+
 
 app.get("/", (req, res) => res.json({ message: "MediQuery Backend Running" }));
 
