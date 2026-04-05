@@ -111,7 +111,7 @@ export default function ChatPage() {
                 id === chat._id ? "bg-blue-50 text-blue-700" : "hover:bg-gray-50 text-gray-600"
               )}
             >
-              <MessageSquare className="w-3.5 h-3.5 flex-shrink-0" />
+              <MessageSquare className="w-3.5 h-3.5 shrink-0" />
               <span className="flex-1 truncate text-xs">{chat.title}</span>
               <button onClick={(e) => handleDelete(e, chat._id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500">
                 <Trash2 className="w-3 h-3" />

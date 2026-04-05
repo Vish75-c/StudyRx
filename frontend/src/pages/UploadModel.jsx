@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { X, Upload, Link, Youtube, CheckCircle, Loader2, FileText } from "lucide-react";
 import { uploadPDF, uploadURL, uploadYoutube } from "@/utils/api";
@@ -13,15 +13,23 @@ const TABS = [
 ];
 
 export default function UploadModal({ collectionId, onClose, onSuccess }) {
-  const [tab, setTab]       = useState("pdf");
-  const [url, setUrl]       = useState("");
-  const [file, setFile]     = useState(null);
+  const [tab,  setTab]  = useState("pdf");
+  const [url,  setUrl]  = useState("");
+  const [file, setFile] = useState(null);
+
   const { uploading, startUpload, finishUpload, failUpload, reset } = useUploadStore();
+
+  useEffect(() => {
+    reset();
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = "unset"; };
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024,
+    disabled: uploading,
     onDrop: (accepted, rejected) => {
       if (rejected.length > 0) return toast.error("File too large or invalid type");
       setFile(accepted[0]);
@@ -29,15 +37,14 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
   });
 
   const handleTabChange = (id) => {
+    if (uploading) return;
     setTab(id);
     setUrl("");
     setFile(null);
-    reset();
   };
 
   const handleSubmit = async () => {
     if (uploading) return;
-
     try {
       if (tab === "pdf") {
         if (!file) return toast.error("Please select a PDF file");
@@ -56,9 +63,8 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
         startUpload(url);
         await uploadYoutube({ collectionId, url: url.trim() });
       }
-
       finishUpload();
-      toast.success("Document uploaded and indexed successfully!");
+      toast.success("Document uploaded successfully!");
       onSuccess?.();
       onClose();
     } catch (err) {
@@ -68,19 +74,27 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      {/* Backdrop — separate div, does NOT wrap modal */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={!uploading ? onClose : undefined}
+      />
+
+      {/* Modal — sits on top of backdrop using relative stacking */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] z-10">
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
           <div>
-            <h3 className="font-display font-semibold text-gray-900">Upload Document</h3>
+            <h3 className="font-semibold text-gray-900">Upload Document</h3>
             <p className="text-xs text-gray-400 mt-0.5">Add content to this collection</p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             disabled={uploading}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-50 transition-colors"
           >
             <X size={18} />
           </button>
@@ -91,6 +105,8 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
+              type="button"
+              disabled={uploading}
               onClick={() => handleTabChange(id)}
               className={cn(
                 "flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all",
@@ -106,7 +122,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
         </div>
 
         {/* Content */}
-        <div className="px-6 py-5">
+        <div className="px-6 py-5 overflow-y-auto flex-1">
           {tab === "pdf" ? (
             <div
               {...getRootProps()}
@@ -127,8 +143,9 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
                     {(file.size / 1024 / 1024).toFixed(2)} MB · PDF
                   </p>
                   <button
+                    type="button"
                     onClick={(e) => { e.stopPropagation(); setFile(null); }}
-                    className="text-xs text-gray-400 hover:text-red-500 transition-colors mt-1"
+                    className="text-xs text-red-500 hover:underline mt-1"
                   >
                     Remove file
                   </button>
@@ -163,7 +180,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
               />
               <p className="text-xs text-gray-400">
                 {tab === "youtube"
-                  ? "We will extract the transcript from this video"
+                  ? "We will extract the full transcript from this video"
                   : "We will scrape and index the text content of this page"}
               </p>
             </div>
@@ -171,29 +188,25 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 pb-6 flex gap-3">
+        <div className="px-6 py-4 flex gap-3 border-t border-gray-100">
           <button
+            type="button"
             onClick={onClose}
             disabled={uploading}
-            className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            className="flex-1 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={handleSubmit}
             disabled={uploading}
-            className="flex-1 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+            className="flex-1 py-3 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2 shadow-sm"
           >
             {uploading ? (
-              <>
-                <Loader2 size={15} className="animate-spin" />
-                Uploading...
-              </>
+              <><Loader2 size={15} className="animate-spin" /> Uploading...</>
             ) : (
-              <>
-                <Upload size={15} />
-                Upload
-              </>
+              <><Upload size={15} /> Upload Document</>
             )}
           </button>
         </div>

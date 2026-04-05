@@ -1,3 +1,7 @@
+import os
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+os.environ["CHROMA_TELEMETRY"] = "False"
+os.environ["POSTHOG_DISABLED"] = "True"
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import ingest, query
@@ -16,8 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(ingest.router, prefix="/ingest", tags=["Ingest"])
-app.include_router(query.router, prefix="/query", tags=["Query"])
+app.include_router(ingest.router,    prefix="/ingest",    tags=["Ingest"])
+app.include_router(query.router,     prefix="/query",     tags=["Query"])
 
 @app.get("/")
 def health_check():

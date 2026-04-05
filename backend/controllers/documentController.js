@@ -8,6 +8,7 @@ const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000";
 
 export const uploadPDF = async (req, res) => {
   try {
+    console.log("IVS");
     const { collectionId, documentName } = req.body;
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
@@ -18,17 +19,10 @@ export const uploadPDF = async (req, res) => {
     formData.append("file", fs.createReadStream(req.file.path));
     formData.append("collection_id", collectionId);
     formData.append("document_name", documentName || req.file.originalname);
-
+    console.log("VISITED");
     await axios.post(`${RAG_URL}/ingest/pdf`, formData, { headers: formData.getHeaders() });
 
-    let summary = null;
-    try {
-      const summaryRes = await axios.post(`${RAG_URL}/summarize/`, {
-        collection_id: collectionId,
-        document_name: documentName || req.file.originalname,
-      });
-      summary = summaryRes.data.summary;
-    } catch (_) {}
+   
 
     const document = await Document.create({
       userId: req.user._id,
@@ -36,7 +30,7 @@ export const uploadPDF = async (req, res) => {
       name: documentName || req.file.originalname,
       type: "pdf",
       source: req.file.originalname,
-      summary,
+      
     });
 
     await Collection.findByIdAndUpdate(collectionId, { $inc: { documentCount: 1 } });
@@ -51,6 +45,7 @@ export const uploadPDF = async (req, res) => {
 export const uploadURL = async (req, res) => {
   try {
     const { collectionId, url } = req.body;
+    console.log(collectionId, url)
     if (!url) return res.status(400).json({ message: "URL is required" });
 
     const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
@@ -80,9 +75,8 @@ export const uploadYoutube = async (req, res) => {
 
     const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
     if (!collection) return res.status(404).json({ message: "Collection not found" });
-
+    console.log("VISITED");
     await axios.post(`${RAG_URL}/ingest/youtube?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
-
     const document = await Document.create({
       userId: req.user._id,
       collectionId,

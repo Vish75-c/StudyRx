@@ -25,8 +25,8 @@ app.use(express.urlencoded({extended:true}));
 // Routes
 app.use("/api/auth",authRoutes)
 app.use("/api/collections",collectionsRoutes)
-app.use("api/documents",documentRoutes)
-app.use("api/chat",chatRoutes)
+app.use("/api/documents",documentRoutes)
+app.use("/api/chat",chatRoutes)
 
 
 app.get("/", (req, res) => res.json({ message: "MediQuery Backend Running" }));

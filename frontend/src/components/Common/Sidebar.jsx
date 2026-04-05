@@ -2,8 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Brain, LayoutDashboard, FolderOpen, MessageSquare, User, LogOut } from "lucide-react";
 import useAuthStore from "@/stores/authStore";
 import toast from "react-hot-toast";
-import { cn } from "@/lib/utils";
-
+import { cn } from "../../utils/cn";
 const navItems = [
   { icon: <LayoutDashboard className="w-5 h-5" />, label: "Dashboard", path: "/dashboard" },
   { icon: <FolderOpen className="w-5 h-5" />, label: "Collections", path: "/collections" },
