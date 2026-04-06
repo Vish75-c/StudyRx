@@ -10,9 +10,9 @@ import { CATEGORY_COLORS } from "@/utils/constants";
 import toast from "react-hot-toast";
 
 function DocTypeIcon({ type }) {
-  if (type === "pdf")     return <FileText size={16} className="text-red-500 flex-shrink-0" />;
-  if (type === "url")     return <Globe    size={16} className="text-blue-500 flex-shrink-0" />;
-  if (type === "youtube") return <Youtube  size={16} className="text-red-600 flex-shrink-0" />;
+  if (type === "pdf")     return <FileText size={16} className="text-red-500 shrink-0" />;
+  if (type === "url")     return <Globe    size={16} className="text-blue-500 shrink-0" />;
+  if (type === "youtube") return <Youtube  size={16} className="text-red-600 shrink-0" />;
   return null;
 }
 

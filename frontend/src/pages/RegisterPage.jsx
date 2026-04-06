@@ -8,6 +8,10 @@ import { registerUser } from "@/utils/api";
 import useAuthStore from "@/stores/authStore";
 import toast from "react-hot-toast";
 
+// Ensure you have an image at this path or replace with a URL
+import authIllustration from '../assests/auth-illustration.png'
+import Footer from "@/components/Common/FooterAuth";
+import AuthNavbar from "@/components/Common/NavbarAuth";
 export default function RegisterPage() {
   const navigate = useNavigate();
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -26,31 +30,26 @@ export default function RegisterPage() {
 
   const validate = () => {
     const newErrors = {};
-
     if (!form.name.trim()) {
       newErrors.name = "Name is required";
     } else if (form.name.trim().length < 2) {
       newErrors.name = "Name must be at least 2 characters";
     }
-
     if (!form.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
       newErrors.email = "Invalid email";
     }
-
     if (!form.password) {
       newErrors.password = "Password is required";
     } else if (form.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-
     if (!form.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (form.password !== form.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -63,12 +62,10 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
     try {
       setLoading(true);
-
       const result = await registerUser({
         name: form.name.trim(),
         email: form.email.trim(),
@@ -94,132 +91,156 @@ export default function RegisterPage() {
     }
   };
 
-  const inputBase =
-    "mt-1 transition-all duration-200 focus:ring-2 focus:ring-blue-200";
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-3xl border border-gray-100 bg-white/90 backdrop-blur p-8 shadow-xl transition-all duration-300 hover:shadow-2xl">
-        <div className="mb-8 flex items-center justify-center gap-2">
-          <div className="rounded-2xl bg-blue-100 p-2">
-            <Brain className="h-7 w-7 text-blue-600" />
+    <div>
+      <AuthNavbar/>
+    <div className="min-h-screen bg-slate-50 flex relative overflow-hidden">
+      {/* Background Ambient Glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none" 
+        style={{ background: 'radial-gradient(circle at 50% 50%, #3b82f610 0%, transparent 70%)' }}
+      />
+
+      {/* Left – Illustration (Hidden on Mobile) */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-slate-900">
+        <img
+          src={authIllustration}
+          alt="MediQuery AI Assistant"
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-blue-900/80 via-transparent to-transparent" />
+        
+        <div className="relative z-10 flex flex-col items-center justify-end p-12 pb-20 w-full">
+          <div className="text-center max-w-sm bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl">
+            <h2 className="text-xl font-bold text-white mb-2">
+              AI-Powered Medical Insights
+            </h2>
+            <p className="text-blue-100 text-sm">
+              Chat with your medical documents using advanced RAG technology to get instant answers.
+            </p>
           </div>
-          <span className="text-2xl font-bold text-gray-900">MediQuery</span>
         </div>
-
-        <h2 className="mb-1 text-xl font-semibold text-gray-900">
-          Create your account
-        </h2>
-        <p className="mb-6 text-sm text-gray-500">
-          Start chatting with your medical documents
-        </p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Dr. John Smith"
-              className={`${inputBase} ${
-                errors.name ? "border-red-500 focus:ring-red-200" : ""
-              }`}
-            />
-            {errors.name && (
-              <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-            )}
-          </div>
-
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="doctor@hospital.com"
-              className={`${inputBase} ${
-                errors.email ? "border-red-500 focus:ring-red-200" : ""
-              }`}
-            />
-            {errors.email && (
-              <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-            )}
-          </div>
-
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <div className="relative">
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={form.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className={`${inputBase} pr-10 ${
-                  errors.password ? "border-red-500 focus:ring-red-200" : ""
-                }`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600"
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="mt-1 text-xs text-red-500">{errors.password}</p>
-            )}
-          </div>
-
-          <div>
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <div className="relative">
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showConfirm ? "text" : "password"}
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className={`${inputBase} pr-10 ${
-                  errors.confirmPassword ? "border-red-500 focus:ring-red-200" : ""
-                }`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm((v) => !v)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600"
-              >
-                {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-            {errors.confirmPassword && (
-              <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>
-            )}
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
-            disabled={loading}
-          >
-            {loading ? "Creating account..." : "Create Account"}
-          </Button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <Link to="/login" className="font-medium text-blue-600 hover:underline">
-            Sign in
-          </Link>
-        </p>
       </div>
+
+      {/* Right – Form Section */}
+      <div className="flex-1 flex items-center justify-center px-4 py-12 relative z-10">
+        <div className="w-full max-w-md">
+          <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-sm p-8 shadow-2xl">
+            
+            {/* Logo */}
+            <Link to="/" className="flex items-center justify-center gap-2 mb-8 group">
+              <div className="p-2 rounded-xl bg-blue-600 shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform duration-200">
+                <Brain className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-2xl font-bold text-slate-900">
+                Medi<span className="text-blue-600">Query</span>
+              </span>
+            </Link>
+
+            <h1 className="text-2xl font-bold text-slate-900 text-center">Create your account</h1>
+            <p className="text-slate-500 text-center mt-2 mb-8">Start chatting with your medical documents</p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Name */}
+              <div className="space-y-1.5">
+                <Label htmlFor="name" className="text-slate-700">Full Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Dr. Jane Smith"
+                  className={`bg-slate-50/50 ${errors.name ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
+                />
+                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+              </div>
+
+              {/* Email */}
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-slate-700">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="jane@hospital.com"
+                  className={`bg-slate-50/50 ${errors.email ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
+                />
+                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+              </div>
+
+              {/* Password */}
+              <div className="space-y-1.5">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className={`bg-slate-50/50 pr-10 ${errors.password ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-1.5">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirm ? "text" : "password"}
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className={`bg-slate-50/50 pr-10 ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm((v) => !v)}
+                    className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors"
+                  >
+                    {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword}</p>}
+              </div>
+
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-100 transition-all active:scale-[0.98]"
+              >
+                {loading ? "Creating account..." : "Create Account"}
+              </Button>
+            </form>
+
+            <p className="text-center text-sm text-slate-500 mt-8">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-600 font-semibold hover:underline underline-offset-4">
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+              <Footer/>
+
     </div>
   );
 }

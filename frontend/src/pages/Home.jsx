@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Brain, FileText, Youtube, Globe, Shield, Zap, ChevronRight, Sparkles,
-  BookOpen, Search, Lock, MessageSquare, Database, Users, HelpCircle, CheckCircle2,
-  ArrowRight, Activity
+  BookOpen, Search, Lock, MessageSquare, Database, Users, HelpCircle, 
+  CheckCircle2, ArrowRight, Activity
 } from "lucide-react";
-
+import Footer from "@/components/Common/footer";
 const features = [
   { icon: <FileText className="h-5 w-5" />, title: "PDF Upload", desc: "Upload medical reports, research papers and clinical guidelines for instant AI-powered analysis." },
   { icon: <Globe className="h-5 w-5" />, title: "URL Ingestion", desc: "Paste any medical website link and chat with its content — from PubMed to WHO guidelines." },
@@ -24,8 +24,8 @@ const steps = [
 
 const useCases = [
   { icon: <BookOpen className="h-6 w-6" />, title: "Medical Students", desc: "Study smarter by uploading textbooks and lecture slides. Get instant answers with page references." },
-  { icon: <Search className="h-6 w-6" />, title: "Clinical Researchers", desc: "Ingest dozens of research papers and query across all of them simultaneously to find patterns." },
-  { icon: <Users className="h-6 w-6" />, title: "Practicing Physicians", desc: "Keep clinical guidelines and protocol documents at your fingertips during patient consultations." },
+  { icon: <Search className="h-6 w-6" />, title: "Clinical Researchers", desc: "Ingest dozens of research papers and query across all of them simultaneously." },
+  { icon: <Users className="h-6 w-6" />, title: "Practicing Physicians", desc: "Keep clinical guidelines and protocol documents at your fingertips during consultations." },
   { icon: <Database className="h-6 w-6" />, title: "Hospital Teams", desc: "Build shared knowledge bases by department—radiology, surgery—with role-based access." },
 ];
 
@@ -39,116 +39,129 @@ const techSpecs = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#eae6e6] text-slate-900 selection:bg-violet-100">
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-violet-100 relative overflow-hidden">
       {/* Visual Background Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-violet-200/30 blur-[120px]" />
         <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] rounded-full bg-indigo-200/20 blur-[100px]" />
-        <div className="absolute inset-0 bg-[url('https://play.tailwindcss.com/img/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+        <div className="absolute inset-0 bg-[url('https://play.tailwindcss.com/img/grid.svg')] bg-center mark-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
       </div>
 
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 border-b border-violet-100 bg-white/70 backdrop-blur-md">
-        <div className="container mx-auto flex h-16 items-center justify-between px-6 lg:px-12">
-          <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 shadow-lg shadow-violet-200">
-              <Brain className="h-6 w-6 text-white" />
+      <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md">
+        <div className="container mx-auto flex h-16 items-center justify-between px-6">
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-600 shadow-lg shadow-violet-200">
+              <Brain className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-800">MediQuery</span>
+            <span className="text-lg font-bold tracking-tight text-slate-900">MediQuery</span>
           </Link>
-          <div className="hidden md:flex items-center gap-8 mr-8">
-             <Link to="#" className="text-sm font-medium text-slate-600 hover:text-violet-600">Features</Link>
-             <Link to="#" className="text-sm font-medium text-slate-600 hover:text-violet-600">Use Cases</Link>
-             <Link to="#" className="text-sm font-medium text-slate-600 hover:text-violet-600">Security</Link>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">Features</a>
+            <a href="#use-cases" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">Use Cases</a>
+            <a href="#architecture" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">Architecture</a>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-slate-600" asChild>
+            <Button variant="ghost" size="sm" className="text-slate-600" asChild>
               <Link to="/login">Login</Link>
             </Button>
-            <Button className="bg-violet-600 hover:bg-violet-700 shadow-md transition-all hover:translate-y-[-1px]" asChild>
+            <Button size="sm" className="bg-violet-600 hover:bg-violet-700 shadow-md text-white" asChild>
               <Link to="/register">Get Started</Link>
             </Button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative flex items-center pt-24 pb-20 md:pt-36 md:pb-32">
+      {/* Hero */}
+      <section className="relative py-28 md:py-36">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <Badge className="mb-8 bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100 px-4 py-1.5 transition-colors">
-            <Sparkles className="h-3.5 w-3.5 mr-2" />
-            Next-Gen RAG for Healthcare
+          <Badge className="mb-6 bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-100 px-4 py-1.5 text-xs font-medium tracking-wide">
+            <Sparkles className="h-3.5 w-3.5 mr-2 inline" />
+            AI-Powered Medical Knowledge Base
           </Badge>
-          <h1 className="mx-auto max-w-4xl text-5xl font-extrabold  tracking-tight sm:text-6xl md:text-7xl text-slate-900">
+          <h1 className="mx-auto max-w-4xl text-5xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl md:text-7xl text-slate-900">
             Chat With Your <br />
-            <span className="bg-gradient-to-r from-violet-600 to-indigo-500 bg-clip-text text-transparent">
-              Medical Knowledge
+            <span className="bg-linear-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+              Medical Documents
             </span>
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-slate-600 md:text-xl">
+          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-slate-500 md:text-lg">
             Upload reports, research, and guidelines. Get instant AI answers with 
             <span className="font-semibold text-slate-800"> verified source citations</span>. 
-            Built for the modern clinician.
+            Built for the modern clinician and medical student.
           </p>
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" className="h-14 px-8 bg-violet-600 hover:bg-violet-700 text-base" asChild>
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Button size="lg" className="h-12 px-8 bg-violet-600 hover:bg-violet-700 text-white" asChild>
               <Link to="/register" className="flex items-center gap-2">
-                Start Analysis for Free <ArrowRight className="h-4 w-4" />
+                Start for Free <ChevronRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 border-violet-200 text-slate-700 hover:bg-violet-50" asChild>
+            <Button size="lg" variant="outline" className="h-12 px-8 border-slate-200 text-slate-700 hover:bg-white" asChild>
               <Link to="/login">Watch Demo</Link>
             </Button>
           </div>
-          <div className="mt-16 flex items-center justify-center gap-8 opacity-50 grayscale">
-            <Activity className="h-8 w-8" />
-            <span className="font-bold text-xl uppercase tracking-widest">PubMed</span>
-            <span className="font-bold text-xl uppercase tracking-widest">HL7</span>
-            <span className="font-bold text-xl uppercase tracking-widest">HIPAA</span>
+          
+          <div className="mt-16 flex items-center justify-center gap-8 opacity-40 grayscale contrast-125">
+            <div className="flex items-center gap-2 font-bold text-lg tracking-tighter text-slate-900"><Activity className="h-5 w-5"/> PubMed</div>
+            <div className="font-bold text-lg tracking-tighter text-slate-900">HIPAA</div>
+            <div className="font-bold text-lg tracking-tighter text-slate-900">LLaMA 3</div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="relative py-24 bg-white border-y border-violet-50">
+      {/* Features */}
+      <section id="features" className="relative py-24 bg-white/50 border-y border-slate-200">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Everything You Need</h2>
-              <p className="mt-4 text-slate-600 text-lg">Powerful features optimized for high-stakes medical data.</p>
-            </div>
-            <Button variant="link" className="text-violet-600 p-0 h-auto">View all features <ChevronRight className="h-4 w-4" /></Button>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Everything You Need</h2>
+            <p className="mt-3 text-slate-500 text-lg">Powerful features built for healthcare professionals</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
-              <div key={i} className="group relative rounded-2xl border border-slate-100 bg-white p-8 transition-all hover:border-violet-200 hover:shadow-xl hover:shadow-violet-500/5">
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition-all duration-300">
+              <div key={i} className="group rounded-2xl border border-slate-200 bg-white p-8 transition-all hover:border-violet-300 hover:shadow-xl hover:shadow-violet-500/5">
+                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-lg bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition-colors duration-300">
                   {f.icon}
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-500">{f.desc}</p>
+                <h3 className="text-base font-bold text-slate-900">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Use Cases - Side by Side */}
-      <section className="py-24 bg-[#fafafa]">
+      {/* How it works */}
+      <section className="relative py-24 md:py-32">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">How It Works</h2>
+          <div className="mt-16 grid gap-8 sm:grid-cols-3">
+            {steps.map((s, i) => (
+              <div key={i} className="relative group">
+                <div className="text-5xl font-extrabold text-violet-100 group-hover:text-violet-200 transition-colors duration-300 leading-none mb-4">{s.step}</div>
+                <h3 className="text-lg font-bold text-slate-900">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section id="use-cases" className="relative py-24 bg-slate-900 text-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Built For Every Role</h2>
-            <p className="mt-4 text-slate-600">MediQuery adapts to your specific clinical workflow.</p>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Built For Every Medical Role</h2>
+            <p className="mt-3 text-slate-400 text-lg">From students to hospital teams, MediQuery adapts to your workflow</p>
           </div>
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {useCases.map((uc, i) => (
-              <div key={i} className="flex flex-col sm:flex-row gap-6 rounded-2xl bg-white border border-slate-100 p-8 shadow-sm transition-transform hover:scale-[1.01]">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+              <div key={i} className="flex gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all hover:bg-white/10">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-violet-500/20 text-violet-400">
                   {uc.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{uc.title}</h3>
-                  <p className="mt-2 text-slate-600 leading-relaxed">{uc.desc}</p>
+                  <h3 className="text-lg font-bold">{uc.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{uc.desc}</p>
                 </div>
               </div>
             ))}
@@ -157,53 +170,52 @@ export default function Home() {
       </section>
 
       {/* Technical Architecture */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-6 lg:px-24">
-          <div className="rounded-3xl bg-slate-900 p-8 md:p-16 text-white overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/20 blur-[100px]" />
-            <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-6">Enterprise-Grade <br />Architecture</h2>
-                <div className="space-y-4">
-                  {techSpecs.map((spec, i) => (
-                    <div key={i} className="flex items-center justify-between py-3 border-b border-white/10">
-                      <span className="text-slate-400 text-sm font-medium">{spec.label}</span>
-                      <span className="text-violet-300 text-sm font-mono">{spec.value}</span>
-                    </div>
-                  ))}
+      <section id="architecture" className="relative py-24">
+        <div className="container mx-auto px-6">
+          <div className="mx-auto max-w-4xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Enterprise-Grade RAG</h2>
+              <p className="mt-3 text-slate-500">Secure, high-performance architecture under the hood</p>
+            </div>
+            
+            <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+              {techSpecs.map((spec, i) => (
+                <div key={i} className={`flex items-center justify-between px-8 py-4 ${i < techSpecs.length - 1 ? "border-b border-slate-100" : ""}`}>
+                  <span className="text-sm font-semibold text-slate-700">{spec.label}</span>
+                  <span className="text-sm font-mono text-violet-600">{spec.value}</span>
                 </div>
-              </div>
-              <div className="bg-white/5 rounded-2xl p-8 border border-white/10">
-                <h3 className="flex items-center gap-2 text-lg font-semibold mb-6">
-                  <Shield className="h-5 w-5 text-violet-400" /> Trust & Compliance
-                </h3>
-                <ul className="space-y-4">
-                   {["AES-256 Encryption at rest", "No training on user data", "SOC2 Type II Compliant", "HIPAA Ready Architecture"].map((item, i) => (
-                     <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
-                        <CheckCircle2 className="h-4 w-4 text-violet-400" /> {item}
-                     </li>
-                   ))}
-                </ul>
-              </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-violet-100 bg-violet-50/50 p-8">
+              <h3 className="flex items-center gap-2 text-base font-bold text-slate-900 mb-4">
+                <Lock className="h-4 w-4 text-violet-600" /> Security & Privacy
+              </h3>
+              <ul className="grid sm:grid-cols-2 gap-4">
+                {["AES-256 Encryption", "No data training", "SOC 2 Type II compliant", "HIPAA Ready Architecture"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2.5 text-sm text-slate-600">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-violet-600" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-24 relative overflow-hidden">
+      {/* CTA */}
+      <section className="relative py-24">
         <div className="container mx-auto px-6">
-          <div className="mx-auto max-w-4xl rounded-[2.5rem] bg-gradient-to-br from-violet-600 to-indigo-700 p-12 md:p-20 text-center text-white shadow-2xl shadow-violet-200">
-            <h2 className="text-3xl font-bold sm:text-5xl">Start querying your <br />medical data today.</h2>
-            <p className="mx-auto mt-6 max-w-xl text-violet-100 text-lg opacity-90">
-              Join thousands of healthcare professionals streamlining their research and clinical practice.
-            </p>
+          <div className="mx-auto max-w-4xl rounded-[2.5rem] bg-linear-to-br from-violet-600 to-indigo-700 p-12 md:p-20 text-center text-white shadow-2xl shadow-violet-200">
+            <h2 className="text-3xl font-bold sm:text-5xl leading-tight">Ready to query your <br />medical data?</h2>
+            <p className="mt-6 text-violet-100 text-lg opacity-90">Join thousands of healthcare professionals today.</p>
             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-              <Button size="lg" className="bg-white text-violet-600 hover:bg-slate-50 h-14 px-10 text-base font-bold">
-                Create Free Account
+              <Button size="lg" className="bg-white text-violet-600 hover:bg-slate-50 h-14 px-10 text-base font-bold rounded-xl" asChild>
+                <Link to="/register">Create Free Account</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 bg-white/10 hover:bg-white/20 text-white h-14 px-10">
-                Contact Sales
+              <Button size="lg" variant="outline" className="border-white/20 bg-white/10 hover:bg-white/20 text-white h-14 px-10 rounded-xl" asChild>
+                <Link to="/login">Contact Support</Link>
               </Button>
             </div>
           </div>
@@ -211,17 +223,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-100 py-12">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Brain className="h-5 w-5 text-violet-600" />
-            <span className="font-bold text-slate-800">MediQuery</span>
-          </div>
-          <p className="text-xs text-slate-400 max-w-md text-center md:text-right italic leading-relaxed">
-            ⚠️ MediQuery is an AI-assisted informational tool. It is not a substitute for professional clinical judgment or medical advice.
-          </p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }
