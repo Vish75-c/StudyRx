@@ -12,7 +12,7 @@ export const createChat = async (req, res) => {
 
     const { collectionId, title } = req.body;
 
-    
+
     if (!mongoose.Types.ObjectId.isValid(collectionId)) {
       return res.status(400).json({ message: "Invalid collectionId" });
     }
@@ -38,7 +38,6 @@ export const createChat = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { question } = req.body;
-    console.log(question);
     const chat = await Chat.findOne({ _id: req.params.id, userId: req.user._id });
     if (!chat) return res.status(404).json({ message: "Chat not found" });
 
@@ -48,15 +47,20 @@ export const sendMessage = async (req, res) => {
       collection_id: chat.collectionId.toString(),
       question,
     });
-    console.log(ragResponse.data);
-    const { answer, sources } = ragResponse.data;
-    chat.messages.push({ role: "assistant", content: answer});
-    
+    const { answer, sources: rawSources } = ragResponse.data;
+    const seen = new Set();
+    const uniqueSources = rawSources.filter((src) => {
+      const key = `${src.source}-${src.page}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).map(({ source, page, type }) => ({ source, page, type })); // ← add this
+    chat.messages.push({ role: "assistant", content: answer, sources: uniqueSources });
     if (chat.messages.length === 2) chat.title = question.slice(0, 50);
     await chat.save();
-    console.log("VISTED");
-    res.json({ answer, sources, chatId: chat._id });
+    res.json({ answer, sources: uniqueSources, chatId: chat._id });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

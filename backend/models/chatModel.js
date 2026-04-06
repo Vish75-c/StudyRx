@@ -13,9 +13,7 @@ const messageSchema=new mongoose.Schema(
         },
         sources:[
             {
-                source:String,
-                page:mongoose.Schema.Types.Mixed,
-                type:String,
+                type:mongoose.Schema.Types.Mixed
             },
         ],
     },
