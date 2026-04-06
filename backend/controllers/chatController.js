@@ -85,7 +85,7 @@ export const getChatById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+ 
 export const deleteChat = async (req, res) => {
   try {
     const chat = await Chat.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
