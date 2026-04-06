@@ -28,7 +28,7 @@ const chatSchema=new mongoose.Schema({
         ref:"User",
         required:true,
     },
-    collectionsId:{
+    collectionId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Collection",
         required:true
