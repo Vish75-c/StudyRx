@@ -40,12 +40,8 @@ const techSpecs = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-violet-100 relative overflow-hidden">
-      {/* Visual Background Elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-violet-200/30 blur-[120px]" />
-        <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] rounded-full bg-indigo-200/20 blur-[100px]" />
-        <div className="absolute inset-0 bg-[url('https://play.tailwindcss.com/img/grid.svg')] bg-center mark-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
-      </div>
+
+     
 
       {/* Navbar */}
       <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md">
