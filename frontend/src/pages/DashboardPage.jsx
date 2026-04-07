@@ -178,10 +178,10 @@ export default function DashboardPage() {
                       onClick={() => navigate(`/chats/${chat._id}`)}
                     >
                       <div className="flex items-center gap-3 overflow-hidden">
-                        <MessageSquare className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                        <MessageSquare className="h-4 w-4 text-slate-400 shrink-0" />
                         <span className="text-sm font-medium text-slate-700 truncate">{chat.title}</span>
                       </div>
-                      <span className="text-xs text-slate-400 font-mono ml-4 flex-shrink-0">
+                      <span className="text-xs text-slate-400 font-mono ml-4 shrink-0">
                         {new Date(chat.createdAt).toLocaleDateString()}
                       </span>
                     </div>

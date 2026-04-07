@@ -105,7 +105,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 text-slate-900">
-      <div className="mx-auto max-w-xl space-y-6">
+      <div className="mx-auto max-w-4xl space-y-6">
         <h1 className="text-2xl font-bold text-slate-900 text-left">Profile</h1>
 
         {/* User Info Card */}

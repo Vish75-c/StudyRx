@@ -36,7 +36,7 @@ export default function ProtectedLayout() {
          <footer className="border-t border-gray-200 bg-white px-4 py-4 text-sm text-gray-500 lg:px-6">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p>© 2026 MediQuery. All rights reserved.</p>
-              <p className="text-xs sm:text-sm">Built for secure internal workflows.</p>
+              <p className="text-xs sm:text-sm">~Vishal</p>
             </div>
           </footer>
       </main>

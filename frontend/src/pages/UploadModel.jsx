@@ -74,14 +74,12 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop — separate div, does NOT wrap modal */}
+    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={!uploading ? onClose : undefined}
       />
 
-      {/* Modal — sits on top of backdrop using relative stacking */}
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] z-10">
 
         {/* Header */}
@@ -111,8 +109,8 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
               className={cn(
                 "flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 tab === id
-                  ? "bg-brand-600 text-white shadow-sm"
-                  : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-sm"
+                  : "text-gray-500 hover:bg-blue-50 hover:text-blue-600"
               )}
             >
               <Icon size={14} />
@@ -193,7 +191,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
             type="button"
             onClick={onClose}
             disabled={uploading}
-            className="flex-1 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            className="flex-1 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
@@ -201,7 +199,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
             type="button"
             onClick={handleSubmit}
             disabled={uploading}
-            className="flex-1 py-3 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2 shadow-sm"
+            className="flex-1 py-3 rounded-xl bg-linear-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-sm"
           >
             {uploading ? (
               <><Loader2 size={15} className="animate-spin" /> Uploading...</>
