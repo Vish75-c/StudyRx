@@ -56,7 +56,7 @@ export const sendMessage = async (req, res) => {
       return true;
     }).map(({ source, page, type }) => ({ source, page, type })); // ← add this
     chat.messages.push({ role: "assistant", content: answer, sources: uniqueSources });
-    if (chat.messages.length === 2) chat.title = question.slice(0, 50);
+    if (chat.messages.length === 1) chat.title = question.slice(0, 50);
     await chat.save();
     res.json({ answer, sources: uniqueSources, chatId: chat._id });
   } catch (error) {
