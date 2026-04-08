@@ -1,15 +1,14 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useMatch } from "react-router-dom";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import useAuthStore from "@/stores/authStore";
 import Sidebar from "./Sidebar";
-
 export default function ProtectedLayout() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const Location=useLocation();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-
+  const isChatPage=useMatch('/chats/:id')
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -30,15 +29,17 @@ export default function ProtectedLayout() {
           </div>
         </header>
  <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
-          <div className="flex-1 p-4 lg:p-6">
+          <div className={`flex-1 ${!isChatPage?"p-4 lg:p-4":" "}`}>
             <Outlet />
           </div></div>
-         <footer className="border-t border-gray-200 bg-white px-4 py-4 text-sm text-gray-500 lg:px-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <p>© 2026 MediQuery. All rights reserved.</p>
-              <p className="text-xs sm:text-sm">~Vishal</p>
-            </div>
-          </footer>
+        {!isChatPage && (
+      <footer className="border-t border-gray-200 bg-white px-4 py-4 text-sm text-gray-500 lg:px-6">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 MediQuery. All rights reserved.</p>
+          <p className="text-xs sm:text-sm">~Vishal</p>
+        </div>
+      </footer>
+    )}
       </main>
     </div>
   );

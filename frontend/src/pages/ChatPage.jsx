@@ -1,17 +1,60 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Send, Download, AlertCircle, MessageSquare } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { 
+  Send, 
+  Download, 
+  AlertCircle, 
+  MessageSquare, 
+  Loader2, 
+  FileText,
+  User
+} from "lucide-react";
 import { getChatById, sendMessage, exportChat } from "@/utils/api";
 import useChatStore from "@/stores/chatStore";
 import toast from "react-hot-toast";
-import { cn } from "@/lib/utils";
 
+/** * STANDALONE UI COMPONENTS
+ */
+const Button = ({ children, onClick, variant = "primary", size = "md", disabled, className = "" }) => {
+  const variants = {
+    primary: "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300",
+    outline: "border border-slate-200 text-slate-600 hover:bg-slate-50",
+    ghost: "text-slate-500 hover:bg-slate-100",
+    secondary: "bg-slate-100 text-slate-900 hover:bg-slate-200"
+  };
+  const sizes = {
+    sm: "px-3 py-1.5 text-xs",
+    md: "px-4 py-2 text-sm",
+    icon: "p-2 w-10 h-10"
+  };
+  return (
+    <button 
+      disabled={disabled}
+      onClick={onClick} 
+      className={`${variants[variant]} ${sizes[size]} font-medium rounded-lg transition-all flex items-center justify-center disabled:cursor-not-allowed ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+const Badge = ({ children, className = "" }) => (
+  <span className={`inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700 border border-blue-100 uppercase tracking-tighter ${className}`}>
+    {children}
+  </span>
+);
+
+const Skeleton = ({ className }) => (
+  <div className={`animate-pulse bg-slate-200 rounded-lg ${className}`} />
+);
+
+/**
+ * PAGE COMPONENT
+ */
 export default function ChatPage() {
   const { id } = useParams();
+  
+  // Logic from your Store
   const {
     activeChat,
     setActiveChat,
@@ -25,6 +68,7 @@ export default function ChatPage() {
   const [loadingChat, setLoadingChat] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Fetch Chat Logic
   useEffect(() => {
     if (!id) {
       setActiveChat(null);
@@ -38,10 +82,12 @@ export default function ChatPage() {
       .finally(() => setLoadingChat(false));
   }, [id, setActiveChat]);
 
+  // Scroll Logic
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Send Message Logic
   const handleSend = async () => {
     if (!input.trim() || isLoading || !activeChat?._id) return;
 
@@ -64,6 +110,7 @@ export default function ChatPage() {
     }
   };
 
+  // Export Logic
   const handleExport = async () => {
     if (!activeChat?._id) return;
 
@@ -81,125 +128,164 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
-      {!activeChat ? (
-        <div className="flex flex-1 items-center justify-center p-8 text-center">
-          <div>
-            <MessageSquare className="mx-auto mb-4 h-14 w-14 text-gray-200" />
-            <h3 className="mb-2 text-lg font-semibold text-gray-900">
-              No chat selected
-            </h3>
-            <p className="text-sm text-gray-500">
-              Open a chat from the sidebar or create a new one.
-            </p>
+    <div className="flex flex-col h-screen bg-slate-50 w-full text-left">
+      {!activeChat && !loadingChat ? (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <div className="mx-auto h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center">
+                <MessageSquare className="h-8 w-8 text-slate-300" />
+            </div>
+            <div>
+                <p className="text-lg font-bold text-slate-900">No chat selected</p>
+                <p className="text-sm text-slate-500 max-w-xs mx-auto">
+                    Open a chat from the sidebar or create a new one to start your medical research.
+                </p>
+            </div>
           </div>
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
-            <h2 className="truncate font-semibold text-gray-900">
-              {activeChat.title}
-            </h2>
-            <Button onClick={handleExport} variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
+          {/* Header */}
+          <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4 shadow-sm z-10">
+            <div className="flex items-center gap-3 overflow-hidden">
+                <div className="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+                    <FileText className="h-4 w-4 text-blue-600" />
+                </div>
+                <h2 className="text-sm font-bold text-slate-900 truncate">
+                {activeChat?.title ?? "Loading Research Chat..."}
+                </h2>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExport}
+              className="gap-2 shrink-0"
+            >
+              <Download className="h-3.5 w-3.5" />
               Export PDF
             </Button>
-          </div>
+          </header>
 
-          <div className="flex-1 overflow-y-auto bg-gray-50 p-6 space-y-6">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto px-4 md:px-10 py-8 space-y-8">
             {loadingChat ? (
-              Array(3)
-                .fill(0)
-                .map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)
+              <div className="max-w-4xl mx-auto space-y-6">
+                <Skeleton className="h-16 w-3/4 ml-auto" />
+                <Skeleton className="h-32 w-full" />
+                <Skeleton className="h-20 w-2/3 ml-auto" />
+              </div>
             ) : messages.length === 0 ? (
-              <div className="py-12 text-center">
-                <p className="text-sm text-gray-400">
-                  Ask your first question about the documents in this collection
+              <div className="flex items-center justify-center h-full">
+                <p className="text-slate-400 text-sm font-medium">
+                  Ask a question about your uploaded medical documents...
                 </p>
               </div>
             ) : (
-              messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={cn("flex", msg.role === "user" ? "justify-end" : "justify-start")}
-                >
+              <div className="max-w-4xl mx-auto space-y-8">
+                {messages.map((msg, i) => (
                   <div
-                    className={cn(
-                      "max-w-2xl",
-                      msg.role === "user" ? "items-end" : "items-start"
-                    )}
+                    key={i}
+                    className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    <div
-                      className={cn(
-                        "rounded-2xl px-4 py-3 text-sm",
-                        msg.role === "user"
-                          ? "rounded-br-sm bg-blue-600 text-white"
-                          : "rounded-bl-sm border border-gray-100 bg-white text-gray-800 shadow-sm"
-                      )}
-                    >
-                      {msg.content}
-                    </div>
+                    <div className={`flex gap-4 max-w-[85%] ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+                        {/* Avatar */}
+                        <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 border ${
+                            msg.role === "user" 
+                            ? "bg-blue-600 border-blue-700 text-white" 
+                            : "bg-white border-slate-200 text-slate-600"
+                        }`}>
+                            {msg.role === "user" ? <User size={14} /> : <MessageSquare size={14} />}
+                        </div>
 
-                    {msg.sources && msg.sources.length > 0 && (
-                      <div className="mt-2 space-y-1">
-                        {msg.sources.map((src, j) => (
-                          <div key={j} className="flex items-center gap-1.5 text-xs text-gray-500">
-                            <AlertCircle className="h-3 w-3 text-blue-500" />
-                            <span>{src.source}</span>
-                            {src.page !== "N/A" && (
-                              <Badge variant="outline" className="py-0 text-xs">
-                                Page {src.page}
-                              </Badge>
+                        {/* Content Bubble */}
+                        <div
+                        className={`rounded-2xl px-5 py-4 shadow-sm ${
+                            msg.role === "user"
+                            ? "bg-blue-600 text-white"
+                            : "bg-white border border-slate-200 text-slate-800"
+                        }`}
+                        >
+                            <p className="text-sm leading-relaxed whitespace-pre-line font-medium">
+                                {msg.content}
+                            </p>
+
+                            {/* Sources Section */}
+                            {msg.sources && msg.sources.length > 0 && (
+                                <div className="mt-4 pt-3 border-t border-slate-100">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Sources Found</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {msg.sources.map((src, j) => (
+                                        <div
+                                            key={j}
+                                            className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 rounded-md px-2 py-1"
+                                        >
+                                            <AlertCircle className="h-3 w-3 text-blue-500" />
+                                            <span className="text-[11px] font-bold text-slate-600 truncate max-w-[120px]">{src.source}</span>
+                                            {src.page && src.page !== "N/A" && (
+                                                <Badge>Pg. {src.page}</Badge>
+                                            )}
+                                        </div>
+                                        ))}
+                                    </div>
+                                </div>
                             )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
 
-                    {msg.role === "assistant" && (
-                      <p className="mt-1 text-xs text-gray-400">
-                        ⚠️ For informational purposes only. Consult a medical professional.
-                      </p>
-                    )}
+                            {/* Medical Disclaimer */}
+                            {msg.role === "assistant" && (
+                                <div className="mt-4 flex items-start gap-2 text-[10px] text-slate-400 italic">
+                                    <span className="shrink-0">⚠️</span>
+                                    <span>For informational purposes only. This AI insight is derived from your documents and should be verified by a licensed professional.</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                   </div>
-                </div>
-              ))
-            )}
-
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
-                  <div className="flex gap-1">
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-gray-300" style={{ animationDelay: "0ms" }} />
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-gray-300" style={{ animationDelay: "150ms" }} />
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-gray-300" style={{ animationDelay: "300ms" }} />
+                ))}
+                
+                {/* Typing Indicator */}
+                {isLoading && (
+                  <div className="flex justify-start max-w-4xl mx-auto">
+                    <div className="flex gap-4">
+                        <div className="h-8 w-8 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0">
+                            <Loader2 className="h-4 w-4 text-blue-500 animate-spin" />
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-sm">
+                            <div className="flex gap-1.5 pt-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.3s]" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.15s]" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce" />
+                            </div>
+                        </div>
+                    </div>
                   </div>
-                </div>
+                )}
+                <div ref={messagesEndRef} />
               </div>
             )}
-
-            <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-gray-100 bg-white px-6 py-4">
-            <div className="flex gap-3">
-              <Input
+          {/* Input Area */}
+          <footer className="border-t border-slate-200 bg-white p-4 px-2 md:p-6 pb-8">
+            <div className="max-w-6xl mx-auto flex gap-3 relative">
+              <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Ask a medical question..."
-                className="flex-1"
+                placeholder="Ask about medications, symptoms, or research data..."
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:opacity-50"
                 disabled={isLoading || !activeChat?._id}
               />
               <Button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim() || !activeChat?._id}
-                className="bg-blue-600 px-4 hover:bg-blue-700"
+                size="icon"
+                className="rounded-xl shrink-0"
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
-          </div>
+            
+          </footer>
         </>
       )}
     </div>
