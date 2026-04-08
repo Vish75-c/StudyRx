@@ -26,7 +26,7 @@ export default function ProtectedLayout() {
           </button>
 
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-900">MediQuery</p>
+            <p className="text-sm md:text-white font-semibold text-gray-900">MediQuery</p>
           </div>
         </header>
  <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
