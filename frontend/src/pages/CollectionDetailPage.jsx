@@ -1,78 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
-  Plus,
-  Trash2,
-  FileText,
-  Globe,
-  Youtube,
-  MessageSquare,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  X
+  ArrowLeft, Plus, Trash2, FileText, Globe, Youtube,
+  MessageSquare, ChevronDown, ChevronUp, Loader2
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-// API & Logic Imports (Kept exactly as per your code)
 import { getCollectionById, getDocuments, deleteDocument, createChat } from "@/utils/api";
-import UploadModal from "./UploadModel"; 
+import UploadModal from "./UploadModel";
 
-/** * STANDALONE UI COMPONENTS FROM TEMPLATE
- */
-const Card = ({ children, className = "" }) => (
-  <div className={`bg-white border border-slate-200 rounded-xl shadow-sm ${className}`}>
-    {children}
-  </div>
-);
-
-const Button = ({ children, onClick, variant = "primary", size = "md", disabled, className = "" }) => {
-  const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300",
-    outline: "border border-slate-200 text-slate-600 hover:bg-slate-50",
-    ghost: "text-slate-500 hover:bg-slate-100 hover:text-blue-600",
-    link: "text-blue-600 hover:underline bg-transparent"
-  };
-  const sizes = {
-    sm: "px-3 py-1.5 text-xs",
-    md: "px-4 py-2 text-sm",
-  };
-  return (
-    <button 
-      disabled={disabled}
-      onClick={onClick} 
-      className={`${variants[variant]} ${sizes[size]} font-medium rounded-lg transition-colors flex items-center justify-center disabled:cursor-not-allowed ${className}`}
-    >
-      {children}
-    </button>
-  );
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] } }),
 };
+const stagger = { visible: { transition: { staggerChildren: 0.05 } } };
 
 const CATEGORY_STYLES = {
-  Health: "bg-emerald-50 text-emerald-700 border-emerald-100",
-  Cardiology: "bg-red-50 text-red-700 border-red-100",
-  Neurology: "bg-purple-50 text-purple-700 border-purple-100",
-  Radiology: "bg-blue-50 text-blue-700 border-blue-100",
+  Reports: "bg-emerald-50 text-emerald-700 border-emerald-100",
+  Research: "bg-rose-50 text-rose-700 border-rose-100",
+  "Drug Manuals": "bg-purple-50 text-purple-700 border-purple-100",
+  "Clinical Guidelines": "bg-blue-50 text-blue-700 border-blue-100",
   Other: "bg-slate-50 text-slate-700 border-slate-100",
 };
 
+const DOC_ICON_STYLES = {
+  pdf: { icon: FileText, color: "text-rose-500", bg: "bg-rose-50" },
+  url: { icon: Globe, color: "text-sky-500", bg: "bg-sky-50" },
+  youtube: { icon: Youtube, color: "text-red-500", bg: "bg-red-50" },
+};
+
 function DocTypeIcon({ type }) {
-  const cls = "h-5 w-5";
-  if (type === "pdf") return <FileText className={`${cls} text-rose-500`} />;
-  if (type === "url") return <Globe className={`${cls} text-sky-500`} />;
-  if (type === "youtube") return <Youtube className={`${cls} text-red-500`} />;
-  return null;
+  const style = DOC_ICON_STYLES[type] || DOC_ICON_STYLES.pdf;
+  const Icon = style.icon;
+  return (
+    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${style.bg} border border-slate-100/50`}>
+      <Icon className={`h-5 w-5 ${style.color}`} />
+    </div>
+  );
 }
 
-/**
- * PAGE COMPONENT
- */
 export default function CollectionDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // Logic State (Directly from your component)
   const [collection, setCollection] = useState(null);
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,13 +50,9 @@ export default function CollectionDetailPage() {
   const [expandedDoc, setExpandedDoc] = useState(null);
   const [startingChat, setStartingChat] = useState(false);
 
-  // Logic: Fetch Data
   const fetchData = async () => {
     try {
-      const [colRes, docRes] = await Promise.all([
-        getCollectionById(id),
-        getDocuments(id),
-      ]);
+      const [colRes, docRes] = await Promise.all([getCollectionById(id), getDocuments(id)]);
       setCollection(colRes.data);
       setDocuments(docRes.data);
     } catch {
@@ -98,7 +64,6 @@ export default function CollectionDetailPage() {
 
   useEffect(() => { fetchData(); }, [id]);
 
-  // Logic: Delete Handler
   const handleDelete = async (docId) => {
     if (!window.confirm("Delete this document from the collection?")) return;
     try {
@@ -111,7 +76,6 @@ export default function CollectionDetailPage() {
     }
   };
 
-  // Logic: Chat Handler
   const handleStartChat = async () => {
     setStartingChat(true);
     try {
@@ -123,20 +87,19 @@ export default function CollectionDetailPage() {
     }
   };
 
-  // Loading Skeleton State
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 p-8">
         <div className="mx-auto max-w-4xl">
-            <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-8" />
-            <Card className="p-6 mb-8">
-                <div className="h-10 w-64 bg-slate-100 rounded animate-pulse" />
-            </Card>
-            <div className="space-y-3">
+          <div className="h-6 w-32 bg-slate-100 rounded-lg animate-pulse mb-8" />
+          <div className="p-6 mb-8 bg-white rounded-2xl border border-slate-100 animate-pulse">
+            <div className="h-10 w-64 bg-slate-50 rounded-lg" />
+          </div>
+          <div className="space-y-3">
             {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-20 bg-white border border-slate-200 rounded-xl animate-pulse" />
+              <div key={i} className="h-20 bg-white border border-slate-100 rounded-2xl animate-pulse" />
             ))}
-            </div>
+          </div>
         </div>
       </div>
     );
@@ -144,25 +107,28 @@ export default function CollectionDetailPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-left">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        
-        {/* Back Button */}
-        <button
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={stagger}
+        className="mx-auto max-w-6xl py-10 sm:px-6"
+      >
+        {/* Back */}
+        <motion.button
+          variants={fadeUp}
           onClick={() => navigate("/collections")}
-          className="group mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
+          className="group mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-violet-600"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to Collections
-        </button>
+        </motion.button>
 
-        {/* Header Section */}
-        <Card className="mb-8 p-6">
+        {/* Header */}
+        <motion.div variants={fadeUp} className="mb-8 p-6 bg-white rounded-2xl border border-slate-100 card-glow">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-slate-900">
-                  {collection?.name}
-                </h1>
+                <h1 className="text-2xl font-bold text-slate-900 font-[Syne]">{collection?.name}</h1>
                 <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase border ${CATEGORY_STYLES[collection?.category] || CATEGORY_STYLES.Other}`}>
                   {collection?.category}
                 </span>
@@ -172,74 +138,70 @@ export default function CollectionDetailPage() {
               </p>
             </div>
             <div className="flex gap-3">
-              <Button
-                variant="outline"
+              <button
                 onClick={handleStartChat}
                 disabled={startingChat || documents.length === 0}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 border border-slate-200 rounded-xl hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {startingChat ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                )}
+                {startingChat ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessageSquare className="h-4 w-4" />}
                 Chat
-              </Button>
-              <Button onClick={() => setShowUpload(true)}>
-                <Plus className="mr-1.5 h-4 w-4" />
-                Upload
-              </Button>
+              </button>
+              <button
+                onClick={() => setShowUpload(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              >
+                <Plus className="h-4 w-4" /> Upload
+              </button>
             </div>
           </div>
-        </Card>
+        </motion.div>
 
-        {/* Documents List */}
+        {/* Documents */}
         {documents.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 py-20 text-center bg-white">
-            <div className="mb-4 rounded-full bg-slate-50 p-4">
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 py-20 text-center bg-white"
+          >
+            <div className="mb-4 rounded-2xl bg-slate-50 p-4 border border-slate-100">
               <FileText className="h-8 w-8 text-slate-300" />
             </div>
-            <p className="text-lg font-bold text-slate-900">No documents yet</p>
+            <p className="text-lg font-bold text-slate-900 font-[Syne]">No documents yet</p>
             <p className="mt-1 max-w-sm text-sm text-slate-500">
               Upload PDFs, website URLs or medical lectures to get started.
             </p>
-            <Button onClick={() => setShowUpload(true)} className="mt-6">
-              <Plus className="mr-1.5 h-4 w-4" />
-              Upload Document
-            </Button>
-          </div>
+            <button
+              onClick={() => setShowUpload(true)}
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+            >
+              <Plus className="h-4 w-4" /> Upload Document
+            </button>
+          </motion.div>
         ) : (
-          <div className="space-y-3">
-            {documents.map((doc) => (
-              <Card key={doc._id} className="overflow-hidden border-slate-200 hover:shadow-sm transition-shadow">
+          <motion.div variants={stagger} className="space-y-3">
+            {documents.map((doc, i) => (
+              <motion.div
+                key={doc._id}
+                variants={fadeUp}
+                custom={i}
+                className="bg-white rounded-2xl border border-slate-100 overflow-hidden card-glow-hover transition-all"
+              >
                 <div className="flex items-center gap-4 p-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 border border-slate-100">
-                    <DocTypeIcon type={doc.type} />
-                  </div>
+                  <DocTypeIcon type={doc.type} />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-bold text-slate-800">
-                      {doc.name}
-                    </p>
+                    <p className="truncate font-bold text-slate-800">{doc.name}</p>
                     <p className="text-xs text-slate-400 font-medium">
                       {doc.type.toUpperCase()} · {new Date(doc.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     {doc.summary && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          setExpandedDoc(expandedDoc === doc._id ? null : doc._id)
-                        }
-                        className="text-xs text-blue-600 font-semibold"
+                      <button
+                        onClick={() => setExpandedDoc(expandedDoc === doc._id ? null : doc._id)}
+                        className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-violet-600 hover:bg-violet-50 rounded-lg transition-colors"
                       >
                         Summary
-                        {expandedDoc === doc._id ? (
-                          <ChevronUp className="ml-1 h-3 w-3" />
-                        ) : (
-                          <ChevronDown className="ml-1 h-3 w-3" />
-                        )}
-                      </Button>
+                        {expandedDoc === doc._id ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                      </button>
                     )}
                     <button
                       onClick={() => handleDelete(doc._id)}
@@ -250,20 +212,29 @@ export default function CollectionDetailPage() {
                   </div>
                 </div>
 
-                {expandedDoc === doc._id && doc.summary && (
-                  <div className="border-t border-slate-100 bg-slate-50 px-5 py-4">
-                    <p className="text-sm leading-relaxed text-slate-600 font-medium">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">AI Summary</span>
-                      {doc.summary}
-                    </p>
-                  </div>
-                )}
-              </Card>
+                <AnimatePresence>
+                  {expandedDoc === doc._id && doc.summary && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="border-t border-slate-50 bg-gradient-to-b from-violet-50/30 to-transparent px-5 py-4">
+                        <p className="text-sm leading-relaxed text-slate-600 font-medium">
+                          <span className="text-[10px] font-bold text-violet-400 uppercase block mb-1">AI Summary</span>
+                          {doc.summary}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
-        {/* Upload Modal (Using your external component) */}
         {showUpload && (
           <UploadModal
             collectionId={id}
@@ -271,7 +242,7 @@ export default function CollectionDetailPage() {
             onSuccess={fetchData}
           />
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

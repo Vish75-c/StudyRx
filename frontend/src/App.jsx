@@ -9,6 +9,14 @@ import CollectionPage from "@/pages/CollectionPage";
 import CollectionDetailPage from "@/pages/CollectionDetailPage";
 import ChatPage from "@/pages/ChatPage";
 import ProfilePage from "@/pages/ProfilePage";
+import useAuthStore from "@/stores/authStore";
+
+/* Redirects logged-in users away from public/auth pages */
+function GuestRoute({ children }) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  return children;
+}
 
 export default function App() {
   return (
@@ -25,10 +33,10 @@ export default function App() {
         }}
       />
       <Routes>
-        {/* Public Routes */}
-        <Route path="/"         element={<Home />} />
-        <Route path="/login"    element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        {/* Public Routes — redirect to dashboard if already logged in */}
+        <Route path="/"         element={<GuestRoute><Home /></GuestRoute>} />
+        <Route path="/login"    element={<GuestRoute><LoginPage /></GuestRoute>} />
+        <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>

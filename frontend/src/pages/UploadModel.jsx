@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { X, Upload, Link, Youtube, CheckCircle, Loader2, FileText } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Upload, Link, Youtube, CheckCircle, Loader2, FileText, Sparkles } from "lucide-react";
 import { uploadPDF, uploadURL, uploadYoutube } from "@/utils/api";
 import useUploadStore from "@/stores/uploadStore";
 import toast from "react-hot-toast";
@@ -74,141 +75,156 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={!uploading ? onClose : undefined}
-      />
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          onClick={!uploading ? onClose : undefined}
+        />
 
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] z-10">
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-          <div>
-            <h3 className="font-semibold text-gray-900">Upload Document</h3>
-            <p className="text-xs text-gray-400 mt-0.5">Add content to this collection</p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={uploading}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-50 transition-colors"
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex gap-1 px-6 pt-5 pb-1">
-          {TABS.map(({ id, label, icon: Icon }) => (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] z-10 border border-slate-100"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+            <div>
+              <h3 className="font-bold text-slate-900 font-[Syne] flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-violet-500" />
+                Upload Document
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">Add content to this collection</p>
+            </div>
             <button
-              key={id}
               type="button"
+              onClick={onClose}
               disabled={uploading}
-              onClick={() => handleTabChange(id)}
-              className={cn(
-                "flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                tab === id
-                  ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-sm"
-                  : "text-gray-500 hover:bg-blue-50 hover:text-blue-600"
-              )}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 disabled:opacity-50 transition-colors"
             >
-              <Icon size={14} />
-              {label}
+              <X size={18} />
             </button>
-          ))}
-        </div>
+          </div>
 
-        {/* Content */}
-        <div className="px-6 py-5 overflow-y-auto flex-1">
-          {tab === "pdf" ? (
-            <div
-              {...getRootProps()}
-              className={cn(
-                "border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all",
-                isDragActive
-                  ? "border-brand-400 bg-brand-50 scale-[1.01]"
-                  : "border-gray-200 hover:border-brand-300 hover:bg-gray-50",
-                file && "border-brand-400 bg-brand-50"
-              )}
-            >
-              <input {...getInputProps()} />
-              {file ? (
-                <div className="flex flex-col items-center gap-2">
-                  <CheckCircle size={36} className="text-brand-500" />
-                  <p className="text-sm font-semibold text-brand-700">{file.name}</p>
-                  <p className="text-xs text-gray-400">
-                    {(file.size / 1024 / 1024).toFixed(2)} MB · PDF
-                  </p>
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setFile(null); }}
-                    className="text-xs text-red-500 hover:underline mt-1"
-                  >
-                    Remove file
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-1">
-                    <Upload size={22} className="text-gray-400" />
+          {/* Tabs */}
+          <div className="flex gap-1 px-6 pt-5 pb-1">
+            {TABS.map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                type="button"
+                disabled={uploading}
+                onClick={() => handleTabChange(id)}
+                className={cn(
+                  "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all",
+                  tab === id
+                    ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/40"
+                    : "text-slate-500 hover:bg-violet-50 hover:text-violet-600"
+                )}
+              >
+                <Icon size={14} />
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Content */}
+          <div className="px-6 py-5 overflow-y-auto flex-1">
+            {tab === "pdf" ? (
+              <div
+                {...getRootProps()}
+                className={cn(
+                  "border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all",
+                  isDragActive
+                    ? "border-violet-400 bg-violet-50 scale-[1.01]"
+                    : "border-slate-200 hover:border-violet-300 hover:bg-violet-50/30",
+                  file && "border-violet-400 bg-violet-50/50"
+                )}
+              >
+                <input {...getInputProps()} />
+                {file ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-12 w-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                      <CheckCircle size={24} className="text-white" />
+                    </div>
+                    <p className="text-sm font-bold text-slate-800">{file.name}</p>
+                    <p className="text-xs text-slate-400">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB · PDF
+                    </p>
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setFile(null); }}
+                      className="text-xs text-red-500 hover:underline mt-1 font-medium"
+                    >
+                      Remove file
+                    </button>
                   </div>
-                  <p className="text-sm font-medium text-gray-700">
-                    {isDragActive ? "Drop your PDF here" : "Drag & drop or click to browse"}
-                  </p>
-                  <p className="text-xs text-gray-400">PDF files only · Max 10MB</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                {tab === "youtube" ? "YouTube Video URL" : "Website URL"}
-              </label>
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder={
-                  tab === "youtube"
-                    ? "https://youtube.com/watch?v=..."
-                    : "https://example.com/medical-article"
-                }
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all"
-              />
-              <p className="text-xs text-gray-400">
-                {tab === "youtube"
-                  ? "We will extract the full transcript from this video"
-                  : "We will scrape and index the text content of this page"}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="px-6 py-4 flex gap-3 border-t border-gray-100">
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={uploading}
-            className="flex-1 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors disabled:opacity-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={uploading}
-            className="flex-1 py-3 rounded-xl bg-linear-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-sm"
-          >
-            {uploading ? (
-              <><Loader2 size={15} className="animate-spin" /> Uploading...</>
+                ) : (
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-1 border border-slate-100">
+                      <Upload size={22} className="text-slate-400" />
+                    </div>
+                    <p className="text-sm font-semibold text-slate-700">
+                      {isDragActive ? "Drop your PDF here" : "Drag & drop or click to browse"}
+                    </p>
+                    <p className="text-xs text-slate-400">PDF files only · Max 10MB</p>
+                  </div>
+                )}
+              </div>
             ) : (
-              <><Upload size={15} /> Upload Document</>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700">
+                  {tab === "youtube" ? "YouTube Video URL" : "Website URL"}
+                </label>
+                <input
+                  type="url"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder={
+                    tab === "youtube"
+                      ? "https://youtube.com/watch?v=..."
+                      : "https://example.com/medical-article"
+                  }
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-200 focus:border-violet-400 transition-all bg-slate-50/50"
+                />
+                <p className="text-xs text-slate-400">
+                  {tab === "youtube"
+                    ? "We will extract the full transcript from this video"
+                    : "We will scrape and index the text content of this page"}
+                </p>
+              </div>
             )}
-          </button>
-        </div>
+          </div>
+
+          {/* Footer */}
+          <div className="px-6 py-4 flex gap-3 border-t border-slate-100">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={uploading}
+              className="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={uploading}
+              className="flex-1 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-lg shadow-violet-200/40 active:scale-[0.98]"
+            >
+              {uploading ? (
+                <><Loader2 size={15} className="animate-spin" /> Uploading...</>
+              ) : (
+                <><Upload size={15} /> Upload Document</>
+              )}
+            </button>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 }
