@@ -80,7 +80,7 @@ export default function QuizPage() {
         {/* Header */}
         <motion.div variants={fadeUp} className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -92,7 +92,7 @@ export default function QuizPage() {
           </div>
           <button
             onClick={() => navigate("/collections")}
-            className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold bg-linear-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
           >
             <Plus className="h-4 w-4" />
             New Quiz
@@ -114,7 +114,7 @@ export default function QuizPage() {
             </p>
             <button
               onClick={() => navigate("/collections")}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               <Sparkles className="h-4 w-4" />
               Browse Collections

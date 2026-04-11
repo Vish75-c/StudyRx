@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 whileHover={{ y: -2, transition: { duration: 0.2 } }}
                 className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-100 card-glow-hover transition-all cursor-default"
               >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${s.gradient} text-white shadow-lg shadow-slate-200/50`}>
+                <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br ${s.gradient} text-white shadow-lg shadow-slate-200/50`}>
                   {s.icon}
                 </div>
                 <div>
@@ -156,7 +156,7 @@ export default function DashboardPage() {
               <p className="text-slate-500 mb-4">No collections yet</p>
               <button
                 onClick={() => navigate("/collections")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
               >
                 <Plus className="w-4 h-4" /> Create Collection
               </button>

@@ -13,17 +13,17 @@ export default function AuthNavbar() {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:shadow-violet-300 transition-shadow duration-300">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:shadow-violet-300 transition-shadow duration-300">
             <Brain className="h-5 w-5 text-white" />
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">MediQuery</span>
+          <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">Medic.AI</span>
         </Link>
 
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="sm" className="text-slate-600 hover:text-violet-600" asChild>
             <Link to="/login">Login</Link>
           </Button>
-          <Button size="sm" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-200 text-white border-0" asChild>
+          <Button size="sm" className="bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-200 text-white border-0" asChild>
             <Link to="/register">Get Started</Link>
           </Button>
         </div>

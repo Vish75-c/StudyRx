@@ -14,12 +14,12 @@ import toast from "react-hot-toast";
 import { cn } from "../../utils/cn";
 
 const navItems = [
-  { icon: <LayoutDashboard className="h-[18px] w-[18px]" />, label: "Dashboard", path: "/dashboard" },
-  { icon: <FolderOpen className="h-[18px] w-[18px]" />, label: "Collections", path: "/collections" },
-  { icon: <MessageSquare className="h-[18px] w-[18px]" />, label: "Chats", path: "/chats" },
-  { icon: <GraduationCap className="h-[18px] w-[18px]" />, label: "Quizzes", path: "/quiz" },
-  { icon: <History className="h-[18px] w-[18px]" />, label: "Quiz History", path: "/quiz/history" },
-  { icon: <User className="h-[18px] w-[18px]" />, label: "Profile", path: "/profile" },
+  { icon: <LayoutDashboard className="h-4.5 w-4.5" />, label: "Dashboard", path: "/dashboard" },
+  { icon: <FolderOpen className="h-4.5 w-4.5" />, label: "Collections", path: "/collections" },
+  { icon: <MessageSquare className="h-4.5 w-4.5" />, label: "Chats", path: "/chats" },
+  { icon: <GraduationCap className="h-4.5 w-4.5" />, label: "Quizzes", path: "/quiz" },
+  { icon: <History className="h-4.5 w-4.5" />, label: "Quiz History", path: "/quiz/history" },
+  { icon: <User className="h-4.5 w-4.5" />, label: "Profile", path: "/profile" },
 ];
 
 export default function Sidebar({ open, onClose }) {
@@ -102,10 +102,10 @@ export default function Sidebar({ open, onClose }) {
         {/* Logo */}
         <div className="flex items-center justify-between border-b border-slate-100 p-5">
           <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50 group-hover:shadow-violet-300/50 transition-shadow">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50 group-hover:shadow-violet-300/50 transition-shadow">
               <Brain className="h-5 w-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-slate-900 font-[Syne]">MediQuery</span>
+            <span className="text-lg font-bold text-slate-900 font-[Syne]">Medic.AI</span>
           </Link>
 
           <button
@@ -130,14 +130,14 @@ export default function Sidebar({ open, onClose }) {
                 className={cn(
                   "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
                   active
-                    ? "bg-gradient-to-r from-violet-50 to-indigo-50 text-violet-700"
+                    ? "bg-linear-to-r from-violet-50 to-indigo-50 text-violet-700"
                     : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
                 )}
               >
                 {active && (
                   <motion.div
                     layoutId="sidebar-active"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-gradient-to-b from-violet-500 to-indigo-500 rounded-full"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-linear-to-b from-violet-500 to-indigo-500 rounded-full"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -210,7 +210,7 @@ export default function Sidebar({ open, onClose }) {
         {/* User & Logout */}
         <div className="mt-auto border-t border-slate-100 bg-white p-3">
           <div className="mb-2 flex items-center gap-3 rounded-xl px-3 py-2.5 bg-slate-50/80">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-sm">
               {user?.name?.charAt(0)?.toUpperCase() ?? "U"}
             </div>
             <div className="min-w-0 flex-1">

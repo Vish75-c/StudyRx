@@ -70,7 +70,7 @@ export default function ProfilePage() {
         {/* User Info */}
         <motion.div variants={fadeUp} className="p-6 bg-white rounded-2xl border border-slate-100 card-glow">
           <div className="flex items-center gap-4 text-left">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 text-white text-xl font-bold shadow-lg shadow-violet-200/50 ring-4 ring-violet-100">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-violet-500 to-indigo-600 text-white text-xl font-bold shadow-lg shadow-violet-200/50 ring-4 ring-violet-100">
               {user?.name?.charAt(0).toUpperCase() || "U"}
             </div>
             <div className="min-w-0">
@@ -121,7 +121,7 @@ export default function ProfilePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -141,7 +141,7 @@ export default function ProfilePage() {
         {/* Danger Zone */}
         <motion.div
           variants={fadeUp}
-          className="p-6 bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl border border-red-200/60 text-left"
+          className="p-6 bg-linear-to-br from-red-50 to-rose-50 rounded-2xl border border-red-200/60 text-left"
         >
           <div className="mb-4 flex items-center gap-2.5">
             <div className="h-9 w-9 rounded-xl bg-red-100 flex items-center justify-center">

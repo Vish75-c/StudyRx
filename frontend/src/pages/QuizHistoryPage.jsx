@@ -96,7 +96,7 @@ export default function QuizHistoryPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 p-8">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="h-8 w-48 bg-slate-100 rounded-lg animate-pulse mb-8" />
           <div className="grid grid-cols-3 gap-4 mb-8">
             {[1, 2, 3].map((i) => (
@@ -119,11 +119,11 @@ export default function QuizHistoryPage() {
         initial="hidden"
         animate="visible"
         variants={stagger}
-        className="mx-auto max-w-4xl py-10 px-4 sm:px-6"
+        className="mx-auto max-w-6xl py-10 px-4 sm:px-6"
       >
         {/* Header */}
         <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
             <History className="h-6 w-6 text-white" />
           </div>
           <div>
@@ -176,7 +176,7 @@ export default function QuizHistoryPage() {
             </p>
             <button
               onClick={() => navigate("/quiz")}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               <GraduationCap className="h-4 w-4" />
               View Quizzes

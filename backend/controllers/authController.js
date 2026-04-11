@@ -18,11 +18,12 @@ export const register = async (req, res) => {
 
         }
         // console.log("VISTED");
-        const user=await User.create({name,email,password})
+    const user=await User.create({name,email,password})
         // console.log("visted");
         res.status(201).json({
             _id: user._id,
-            name: user.email,
+            name: user.name,
+            email:user.email,
             token: generateToken(user._id)
         });
     }catch(err){

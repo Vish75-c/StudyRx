@@ -75,7 +75,7 @@ export default function ChatPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4 max-w-sm w-full"
           >
-            <div className="mx-auto h-20 w-20 bg-gradient-to-br from-violet-50 to-indigo-50 rounded-2xl flex items-center justify-center border border-violet-100/50">
+            <div className="mx-auto h-20 w-20 bg-linear-to-br from-violet-50 to-indigo-50 rounded-2xl flex items-center justify-center border border-violet-100/50">
               <MessageSquare className="h-9 w-9 text-violet-300" />
             </div>
             <div>
@@ -91,7 +91,7 @@ export default function ChatPage() {
           {/* ── Header ── */}
           <header className="shrink-0 flex items-center justify-between border-b border-slate-100 glass px-4 sm:px-6 py-3 sm:py-4 z-10">
             <div className="flex items-center gap-3 overflow-hidden min-w-0">
-              <div className="h-9 w-9 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-violet-200/40">
+              <div className="h-9 w-9 bg-linear-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-violet-200/40">
                 <Brain className="h-4 w-4 text-white" />
               </div>
               <div className="min-w-0">
@@ -146,7 +146,7 @@ export default function ChatPage() {
                         {/* Avatar */}
                         <div className={`h-8 w-8 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
                           msg.role === "user"
-                            ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white"
+                            ? "bg-linear-to-br from-violet-600 to-indigo-600 text-white"
                             : "bg-white border border-slate-200 text-violet-600"
                         }`}>
                           {msg.role === "user" ? <User size={14} /> : <Brain size={14} />}
@@ -155,10 +155,10 @@ export default function ChatPage() {
                         {/* Bubble */}
                         <div className={`rounded-2xl px-4 sm:px-5 py-3.5 sm:py-4 max-w-full ${
                           msg.role === "user"
-                            ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/30"
+                            ? "bg-linear-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/30"
                             : "bg-white border border-slate-100 text-slate-800 shadow-sm card-glow"
                         }`}>
-                          <p className="text-sm leading-relaxed whitespace-pre-line font-medium break-words">
+                          <p className="text-sm leading-relaxed whitespace-pre-line font-medium wrap-break-words">
                             {msg.content}
                           </p>
 
@@ -173,7 +173,7 @@ export default function ChatPage() {
                                     className="flex items-center gap-1.5 bg-violet-50 border border-violet-100/50 rounded-lg px-2.5 py-1 max-w-full"
                                   >
                                     <AlertCircle className="h-3 w-3 text-violet-500 shrink-0" />
-                                    <span className="text-[11px] font-bold text-slate-600 truncate max-w-[120px] sm:max-w-[160px]">{src.source}</span>
+                                    <span className="text-[11px] font-bold text-slate-600 truncate max-w-30 sm:max-w-40">{src.source}</span>
                                     {src.page && src.page !== "N/A" && (
                                       <span className="inline-flex items-center rounded-md bg-violet-100 px-1.5 py-0.5 text-[9px] font-bold text-violet-700 border border-violet-200/50 uppercase">
                                         Pg. {src.page}
@@ -251,7 +251,7 @@ export default function ChatPage() {
               <button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim() || !activeChat?._id}
-                className="rounded-xl h-[42px] w-[42px] flex items-center justify-center bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/40 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                className="rounded-xl h-10.5 w-10.5 flex items-center justify-center bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/40 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
               >
                 <Send size={16} />
               </button>

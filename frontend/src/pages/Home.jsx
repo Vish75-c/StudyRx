@@ -207,7 +207,7 @@ export default function Home() {
               <Brain className="h-5 w-5 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">
-              MediQuery
+              Medic.AI
             </span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
@@ -495,7 +495,7 @@ export default function Home() {
               Built For Every Medical Role
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-3 text-slate-400 text-lg">
-              From students to hospital teams, MediQuery adapts to your workflow
+              From students to hospital teams, Medic.AI adapts to your workflow
             </motion.p>
           </motion.div>
 

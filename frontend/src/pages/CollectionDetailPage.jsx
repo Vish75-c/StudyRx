@@ -156,7 +156,7 @@ export default function CollectionDetailPage() {
               </button>
               <button
                 onClick={() => setShowUpload(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-linear-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
               >
                 <Plus className="h-4 w-4" /> Upload
               </button>
@@ -179,7 +179,7 @@ export default function CollectionDetailPage() {
             </p>
             <button
               onClick={() => setShowUpload(true)}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               <Plus className="h-4 w-4" /> Upload Document
             </button>
@@ -229,7 +229,7 @@ export default function CollectionDetailPage() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="border-t border-slate-50 bg-gradient-to-b from-violet-50/30 to-transparent px-5 py-4">
+                      <div className="border-t border-slate-50 bg-linear-to-b from-violet-50/30 to-transparent px-5 py-4">
                         <p className="text-sm leading-relaxed text-slate-600 font-medium">
                           <span className="text-[10px] font-bold text-violet-400 uppercase block mb-1">AI Summary</span>
                           {doc.summary}

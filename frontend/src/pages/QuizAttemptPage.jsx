@@ -137,7 +137,7 @@ export default function QuizAttemptPage() {
         <div className="mb-6 p-4 bg-white rounded-2xl border border-slate-100 card-glow">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-sm shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-sm shrink-0">
                 <Brain className="h-4 w-4 text-white" />
               </div>
               <div className="min-w-0">
@@ -164,7 +164,7 @@ export default function QuizAttemptPage() {
           {/* Progress bar */}
           <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full"
+              className="h-full bg-linear-to-r from-violet-600 to-indigo-600 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
@@ -208,14 +208,14 @@ export default function QuizAttemptPage() {
                       onClick={() => selectAnswer(currentQuestion, key)}
                       className={`w-full flex items-center gap-4 p-4 rounded-xl text-left transition-all duration-200 ${
                         isSelected
-                          ? "bg-gradient-to-r from-violet-50 to-indigo-50 border-2 border-violet-300 shadow-sm"
+                          ? "bg-linear-to-r from-violet-50 to-indigo-50 border-2 border-violet-300 shadow-sm"
                           : "bg-slate-50 border border-slate-200 hover:bg-violet-50/50 hover:border-violet-200"
                       }`}
                     >
                       <span
                         className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold transition-all ${
                           isSelected
-                            ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50"
+                            ? "bg-linear-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50"
                             : "bg-white border border-slate-200 text-slate-500"
                         }`}
                       >
@@ -249,7 +249,7 @@ export default function QuizAttemptPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold bg-linear-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60"
             >
               {isSubmitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -261,7 +261,7 @@ export default function QuizAttemptPage() {
           ) : (
             <button
               onClick={nextQuestion}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-linear-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               Next
               <ChevronRight className="h-4 w-4" />
@@ -284,7 +284,7 @@ export default function QuizAttemptPage() {
                   onClick={() => goToQuestion(i)}
                   className={`h-8 w-8 rounded-lg text-xs font-bold transition-all duration-200 ${
                     isCurrent
-                      ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50 scale-110"
+                      ? "bg-linear-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50 scale-110"
                       : isAnswered
                         ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                         : "bg-slate-50 text-slate-400 border border-slate-200 hover:bg-violet-50 hover:text-violet-600"
@@ -297,7 +297,7 @@ export default function QuizAttemptPage() {
           </div>
           <div className="flex items-center gap-4 mt-3 text-[10px] font-medium text-slate-400">
             <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded bg-gradient-to-br from-violet-600 to-indigo-600" />
+              <span className="h-2.5 w-2.5 rounded bg-linear-to-br from-violet-600 to-indigo-600" />
               Current
             </span>
             <span className="flex items-center gap-1.5">

@@ -92,7 +92,7 @@ export default function CollectionPage() {
           <motion.div variants={fadeUp}>
             <button
               onClick={() => setOpen(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" /> New Collection
             </button>
@@ -119,7 +119,7 @@ export default function CollectionPage() {
             <p className="mt-1 text-sm text-slate-500">Create your first collection</p>
             <button
               onClick={() => setOpen(true)}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               <Plus className="w-4 h-4" /> Create Collection
             </button>
@@ -141,7 +141,7 @@ export default function CollectionPage() {
                 className="group relative p-6 cursor-pointer bg-white rounded-2xl border border-slate-100 card-glow-hover transition-all"
               >
                 <div className="flex items-start justify-between">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${ICON_GRADIENTS[col.category] || ICON_GRADIENTS.Other} text-white shadow-lg shadow-slate-200/50`}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br ${ICON_GRADIENTS[col.category] || ICON_GRADIENTS.Other} text-white shadow-lg shadow-slate-200/50`}>
                     <FolderOpen className="h-5 w-5" />
                   </div>
                   <button
@@ -236,7 +236,7 @@ export default function CollectionPage() {
                   <button
                     onClick={handleCreate}
                     disabled={creating}
-                    className="w-full py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-linear-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {creating ? (
                       <span className="flex items-center justify-center gap-2">

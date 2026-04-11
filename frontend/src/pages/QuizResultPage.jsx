@@ -169,7 +169,7 @@ export default function QuizResultPage() {
             </button>
             <button
               onClick={() => navigate("/collections")}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-linear-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all"
             >
               <Sparkles className="h-4 w-4" />
               New Quiz
@@ -254,7 +254,7 @@ export default function QuizResultPage() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="border-t border-slate-50 bg-gradient-to-b from-violet-50/30 to-transparent px-5 py-4">
+                        <div className="border-t border-slate-50 bg-linear-to-b from-violet-50/30 to-transparent px-5 py-4">
                           <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1">
                             AI Explanation
                           </p>

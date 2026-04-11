@@ -105,7 +105,7 @@ export default function QuizGeneratePage() {
         {/* Header */}
         <motion.div variants={fadeUp} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50">
               <Brain className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -134,7 +134,7 @@ export default function QuizGeneratePage() {
                 onClick={() => setNumQuestions(count)}
                 className={`relative py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 ${
                   numQuestions === count
-                    ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50 scale-[1.02]"
+                    ? "bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/50 scale-[1.02]"
                     : "bg-slate-50 text-slate-600 border border-slate-200 hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200"
                 }`}
               >
@@ -169,7 +169,7 @@ export default function QuizGeneratePage() {
                   <div
                     className={`inline-flex items-center justify-center h-9 w-9 rounded-lg mb-3 ${
                       isSelected
-                        ? `bg-gradient-to-br ${diff.gradient} shadow-lg ${diff.shadow}`
+                        ? `bg-linear-to-br ${diff.gradient} shadow-lg ${diff.shadow}`
                         : "bg-white border border-slate-200"
                     }`}
                   >
@@ -188,7 +188,7 @@ export default function QuizGeneratePage() {
                   {isSelected && (
                     <motion.div
                       layoutId="diff-indicator"
-                      className={`absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-gradient-to-br ${diff.gradient}`}
+                      className={`absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-linear-to-br ${diff.gradient}`}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
@@ -201,7 +201,7 @@ export default function QuizGeneratePage() {
         {/* Summary */}
         <motion.div
           variants={fadeUp}
-          className="mb-6 p-5 bg-gradient-to-r from-violet-50 to-indigo-50 rounded-2xl border border-violet-100/50"
+          className="mb-6 p-5 bg-linear-to-r from-violet-50 to-indigo-50 rounded-2xl border border-violet-100/50"
         >
           <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-2">
             Quiz Summary
@@ -228,7 +228,7 @@ export default function QuizGeneratePage() {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="w-full py-4 px-6 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-4 px-6 bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-violet-200/50 hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {generating ? (
               <>

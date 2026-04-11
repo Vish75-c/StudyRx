@@ -76,7 +76,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -122,7 +122,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
                 className={cn(
                   "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all",
                   tab === id
-                    ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/40"
+                    ? "bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-200/40"
                     : "text-slate-500 hover:bg-violet-50 hover:text-violet-600"
                 )}
               >
@@ -148,7 +148,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
                 <input {...getInputProps()} />
                 {file ? (
                   <div className="flex flex-col items-center gap-2">
-                    <div className="h-12 w-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                    <div className="h-12 w-12 bg-linear-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center">
                       <CheckCircle size={24} className="text-white" />
                     </div>
                     <p className="text-sm font-bold text-slate-800">{file.name}</p>
@@ -214,7 +214,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
               type="button"
               onClick={handleSubmit}
               disabled={uploading}
-              className="flex-1 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-lg shadow-violet-200/40 active:scale-[0.98]"
+              className="flex-1 py-3 rounded-xl bg-linear-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold hover:from-violet-700 hover:to-indigo-700 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-lg shadow-violet-200/40 active:scale-[0.98]"
             >
               {uploading ? (
                 <><Loader2 size={15} className="animate-spin" /> Uploading...</>

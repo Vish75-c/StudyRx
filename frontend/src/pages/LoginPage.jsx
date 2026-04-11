@@ -94,7 +94,7 @@ export default function LoginPage() {
 
         {/* Left — Animated Gradient Panel */}
         <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-          <img src={authIllustration} alt="MediQuery AI" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={authIllustration} alt="Medic.AI AI" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-linear-to-br from-violet-600/80 via-indigo-600/70 to-purple-700/80" />
 
           <FloatingIcons />
