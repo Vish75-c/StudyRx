@@ -12,7 +12,7 @@ def load_pdf(file_path: str, collection_id: str, document_name: str):
     pages = [p for p in pages if p.page_content.strip()]
     print(f"[PDF] Non-empty pages: {len(pages)}")
 
-    for page in pages:
+    for page in pages: 
         page.metadata["source"]        = document_name
         page.metadata["collection_id"] = collection_id
         page.metadata["type"]          = "pdf"

@@ -4,8 +4,9 @@ os.environ["CHROMA_TELEMETRY"] = "False"
 os.environ["POSTHOG_DISABLED"] = "True"
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import ingest, query
-
+from routers import ingest, query, quiz
+from dotenv import load_dotenv
+load_dotenv()
 app = FastAPI(
     title="MediQuery RAG Service",
     description="AI powered medical knowledge base RAG backend",
@@ -22,6 +23,7 @@ app.add_middleware(
 
 app.include_router(ingest.router,    prefix="/ingest",    tags=["Ingest"])
 app.include_router(query.router,     prefix="/query",     tags=["Query"])
+app.include_router(quiz.router,      prefix="/quiz",      tags=["Quiz"])
 
 @app.get("/")
 def health_check():
