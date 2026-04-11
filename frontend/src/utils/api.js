@@ -41,4 +41,13 @@ export const getChatById = (id) => API.get(`/chat/${id}`);
 export const deleteChat = (id) => API.delete(`/chat/${id}`);
 export const exportChat = (id) => API.get(`/chat/${id}/export`, { responseType: "blob" });
 
+// Quiz
+export const generateQuiz = (data) => API.post("/quiz/generate", data);
+export const submitQuiz = (id, data) => API.post(`/quiz/${id}/submit`, data);
+export const getQuizzes = () => API.get("/quiz");
+export const getQuizHistory = () => API.get("/quiz/history");
+export const getQuizById = (id) => API.get(`/quiz/${id}`);
+export const getAttemptResult = (id, attemptId) => API.get(`/quiz/${id}/attempts/${attemptId}`);
+export const deleteQuizApi = (id) => API.delete(`/quiz/${id}`);
+
 export default API;

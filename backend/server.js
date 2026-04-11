@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.js"
 import chatRoutes from "./routes/chat.js"
 import collectionsRoutes from "./routes/collections.js"
 import documentRoutes from "./routes/documents.js"
+import quizRoutes from "./routes/quiz.js"
 import errorHandler from "./middleware/errorHandler.js"
 import fs from "fs"
 
@@ -27,6 +28,7 @@ app.use("/api/auth",authRoutes)
 app.use("/api/collections",collectionsRoutes)
 app.use("/api/documents",documentRoutes)
 app.use("/api/chat",chatRoutes)
+app.use("/api/quiz",quizRoutes)
 
 
 app.get("/", (req, res) => res.json({ message: "MediQuery Backend Running" }));

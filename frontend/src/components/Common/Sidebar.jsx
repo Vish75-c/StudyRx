@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain, LayoutDashboard, FolderOpen, MessageSquare,
   User, LogOut, X, Plus, Trash2, Sparkles,
+  GraduationCap, History,
 } from "lucide-react";
 import useAuthStore from "@/stores/authStore";
 import useChatStore from "@/stores/chatStore";
@@ -16,6 +17,8 @@ const navItems = [
   { icon: <LayoutDashboard className="h-[18px] w-[18px]" />, label: "Dashboard", path: "/dashboard" },
   { icon: <FolderOpen className="h-[18px] w-[18px]" />, label: "Collections", path: "/collections" },
   { icon: <MessageSquare className="h-[18px] w-[18px]" />, label: "Chats", path: "/chats" },
+  { icon: <GraduationCap className="h-[18px] w-[18px]" />, label: "Quizzes", path: "/quiz" },
+  { icon: <History className="h-[18px] w-[18px]" />, label: "Quiz History", path: "/quiz/history" },
   { icon: <User className="h-[18px] w-[18px]" />, label: "Profile", path: "/profile" },
 ];
 
@@ -36,8 +39,11 @@ export default function Sidebar({ open, onClose }) {
     navigate("/");
   };
 
-  const isActive = (path) =>
-    location.pathname === path || location.pathname.startsWith(`${path}/`);
+  const isActive = (path) => {
+    if (path === "/quiz") return location.pathname === "/quiz";
+    if (path === "/quiz/history") return location.pathname === "/quiz/history";
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
 
   const handleNewChat = async (collectionId) => {
     try {

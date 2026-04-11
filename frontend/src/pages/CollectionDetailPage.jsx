@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Plus, Trash2, FileText, Globe, Youtube,
-  MessageSquare, ChevronDown, ChevronUp, Loader2
+  MessageSquare, ChevronDown, ChevronUp, Loader2, Brain
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -145,6 +145,14 @@ export default function CollectionDetailPage() {
               >
                 {startingChat ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessageSquare className="h-4 w-4" />}
                 Chat
+              </button>
+              <button
+                onClick={() => navigate(`/quiz/generate/${id}`)}
+                disabled={documents.length === 0}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-violet-600 border border-violet-200 rounded-xl bg-violet-50 hover:bg-violet-100 hover:border-violet-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Brain className="h-4 w-4" />
+                Quiz
               </button>
               <button
                 onClick={() => setShowUpload(true)}
