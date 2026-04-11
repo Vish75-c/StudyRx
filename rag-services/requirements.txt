@@ -14,4 +14,5 @@ beautifulsoup4==4.12.3
 requests==2.31.0
 youtube-transcript-api==0.6.2
 python-dotenv==1.0.1
-pydantic==2.10.6
+pydantic==2.7.1
+pydantic-core==2.18.4
