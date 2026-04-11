@@ -95,7 +95,7 @@ export default function LoginPage() {
         {/* Left — Animated Gradient Panel */}
         <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
           <img src={authIllustration} alt="MediQuery AI" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600/80 via-indigo-600/70 to-purple-700/80" />
+          <div className="absolute inset-0 bg-linear-to-br from-violet-600/80 via-indigo-600/70 to-purple-700/80" />
 
           <FloatingIcons />
 
@@ -132,7 +132,7 @@ export default function LoginPage() {
 
               {/* Logo */}
               <Link to="/" className="flex items-center justify-center gap-2.5 mb-8 group">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:scale-105 transition-transform duration-200">
+                <div className="p-2 rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:scale-105 transition-transform duration-200">
                   <Brain className="h-7 w-7 text-white" />
                 </div>
                 <span className="text-2xl font-bold text-slate-900 font-[Syne]">
@@ -152,7 +152,7 @@ export default function LoginPage() {
                     type="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="doctor@hospital.com"
+                    placeholder="Enter your email"
                     className={`bg-slate-50/80 border-slate-200 transition-all focus:ring-2 ${
                       errors.email ? "border-red-500 focus-visible:ring-red-500" : "focus-visible:ring-violet-200"
                     }`}
@@ -163,7 +163,6 @@ export default function LoginPage() {
                 <motion.div variants={fadeUp} className="space-y-1.5">
                   <div className="flex justify-between items-center">
                     <Label htmlFor="password" className="text-slate-700">Password</Label>
-                    <Link to="#" className="text-xs text-violet-600 hover:underline font-medium">Forgot password?</Link>
                   </div>
                   <div className="relative">
                     <Input
@@ -191,7 +190,7 @@ export default function LoginPage() {
                 <motion.div variants={fadeUp}>
                   <Button
                     type="submit"
-                    className="w-full h-11 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 transition-all active:scale-[0.98] border-0 group"
+                    className="w-full h-11 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-violet-200/50 transition-all active:scale-[0.98] border-0 group"
                     disabled={loading}
                   >
                     {loading ? (

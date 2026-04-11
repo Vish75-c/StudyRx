@@ -42,21 +42,10 @@ export default function FooterAuth() {
               </p>
             </div>
 
-            <div className="flex items-center gap-5">
-              {[
-                { icon: <ShieldCheck className="h-4 w-4" />, label: "HIPAA READY" },
-                { icon: <Globe className="h-4 w-4" />, label: "GDPR" },
-                { icon: <Scale className="h-4 w-4" />, label: "SOC2 TYPE II" },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                  <span className="text-violet-500">{badge.icon}</span>
-                  {badge.label}
-                </div>
-              ))}
-            </div>
+            
           </div>
 
-          <div className="mt-10 p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-violet-50/30 border border-slate-100">
+          <div className="mt-10 p-5 rounded-2xl bg-linear-to-r from-slate-50 to-violet-50/30 border border-slate-100">
             <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 text-center mb-1.5 flex items-center justify-center gap-1">
               <Sparkles className="h-3 w-3" /> Medical Disclaimer
             </p>

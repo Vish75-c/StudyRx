@@ -100,7 +100,7 @@ export default function RegisterPage() {
         {/* Left — Animated Gradient Panel */}
         <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
           <img src={authIllustration} alt="MediQuery AI" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600/80 via-indigo-600/70 to-purple-700/80" />
+          <div className="absolute inset-0 bg-linear-to-br from-violet-600/80 via-indigo-600/70 to-purple-700/80" />
 
           <FloatingIcons />
 
@@ -118,7 +118,7 @@ export default function RegisterPage() {
                 AI-Powered Medical Insights
               </h2>
               <p className="text-violet-200 text-sm leading-relaxed">
-                Chat with your medical documents using advanced RAG technology to get instant answers.
+                Chat with your medical documents using advanced RAG technology to chat with own data source.
               </p>
             </motion.div>
           </div>
@@ -136,7 +136,7 @@ export default function RegisterPage() {
 
               {/* Logo */}
               <Link to="/" className="flex items-center justify-center gap-2.5 mb-8 group">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:scale-105 transition-transform duration-200">
+                <div className="p-2 rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:scale-105 transition-transform duration-200">
                   <Brain className="h-7 w-7 text-white" />
                 </div>
                 <span className="text-2xl font-bold text-slate-900 font-[Syne]">
@@ -153,7 +153,7 @@ export default function RegisterPage() {
                   <Label htmlFor="name" className="text-slate-700">Full Name</Label>
                   <Input
                     id="name" name="name" value={form.name} onChange={handleChange}
-                    placeholder="Dr. Jane Smith"
+                    placeholder="Enter your name"
                     className={`bg-slate-50/80 ${errors.name ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-violet-200"}`}
                   />
                   {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
@@ -164,7 +164,7 @@ export default function RegisterPage() {
                   <Label htmlFor="email" className="text-slate-700">Email</Label>
                   <Input
                     id="email" name="email" type="email" value={form.email} onChange={handleChange}
-                    placeholder="jane@hospital.com"
+                    placeholder="Enter your email"
                     className={`bg-slate-50/80 ${errors.email ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-violet-200"}`}
                   />
                   {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
@@ -205,7 +205,7 @@ export default function RegisterPage() {
                 <motion.div variants={fadeUp}>
                   <Button
                     type="submit" disabled={loading}
-                    className="w-full h-11 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white shadow-lg shadow-violet-200/50 transition-all active:scale-[0.98] border-0 group"
+                    className="w-full h-11 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white shadow-lg shadow-violet-200/50 transition-all active:scale-[0.98] border-0 group"
                   >
                     {loading ? (
                       <span className="flex items-center gap-2">

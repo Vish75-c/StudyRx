@@ -51,7 +51,7 @@ export default function Footer() {
           {/* Brand & Newsletter */}
           <div className="lg:col-span-2 space-y-6">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-md group-hover:shadow-violet-200 transition-shadow">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-md group-hover:shadow-violet-200 transition-shadow">
                 <Brain className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold tracking-tight text-slate-900 font-[Syne]">MediQuery</span>
@@ -68,7 +68,7 @@ export default function Footer() {
                   placeholder="doctor@hospital.com"
                   className="bg-slate-50 border-slate-200 focus-visible:ring-violet-200"
                 />
-                <Button className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white px-4 border-0 shadow-lg shadow-violet-200/30">
+                <Button className="bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white px-4 border-0 shadow-lg shadow-violet-200/30">
                   <Mail className="h-4 w-4" />
                 </Button>
               </div>
@@ -117,22 +117,11 @@ export default function Footer() {
             </div>
 
             {/* Compliance */}
-            <div className="flex items-center gap-5">
-              {[
-                { icon: <ShieldCheck className="h-4 w-4" />, label: "HIPAA READY" },
-                { icon: <Globe className="h-4 w-4" />, label: "GDPR" },
-                { icon: <Scale className="h-4 w-4" />, label: "SOC2 TYPE II" },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                  <span className="text-violet-500">{badge.icon}</span>
-                  {badge.label}
-                </div>
-              ))}
-            </div>
+           
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-10 p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-violet-50/30 border border-slate-100">
+          <div className="mt-10 p-5 rounded-2xl bg-linear-to-r from-slate-50 to-violet-50/30 border border-slate-100">
             <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 text-center mb-1.5 flex items-center justify-center gap-1">
               <Sparkles className="h-3 w-3" /> Medical Disclaimer
             </p>
