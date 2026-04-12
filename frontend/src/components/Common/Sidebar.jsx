@@ -32,7 +32,7 @@ export default function Sidebar({ open, onClose }) {
 
   const setCollections = useCollectionStore((s) => s.setCollections);
 
-  // Fetch chat history and collections from backend on mount
+  // Fetch chat history and collections — re-fetch when navigating to chat pages
   useEffect(() => {
     getChatHistory()
       .then((res) => setChats(res.data))
@@ -40,7 +40,7 @@ export default function Sidebar({ open, onClose }) {
     getCollections()
       .then((res) => setCollections(res.data))
       .catch(() => {});
-  }, [setChats, setCollections]);
+  }, [setChats, setCollections, location.pathname]);
 
   const handleLogout = () => {
     logout();

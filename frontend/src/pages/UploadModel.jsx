@@ -66,11 +66,16 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
       }
       finishUpload();
       toast.success("Document uploaded successfully!");
-      onSuccess?.();
+      await onSuccess?.();
       onClose();
     } catch (err) {
       failUpload();
-      toast.error(err.response?.data?.message || "Upload failed. Please try again.");
+      const msg = err.response?.data?.detail || err.response?.data?.message || "";
+      if (tab === "youtube") {
+        toast.error("YouTube is blocking transcript requests from our cloud server. Please try uploading a PDF or website URL instead.", { duration: 6000 });
+      } else {
+        toast.error(msg || "Upload failed. Please try again.");
+      }
     }
   };
 

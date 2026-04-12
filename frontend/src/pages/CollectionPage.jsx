@@ -49,8 +49,9 @@ export default function CollectionPage() {
     if (!name.trim()) return toast.error("Collection name is required");
     setCreating(true);
     try {
-      const res = await createCollection({ name, category });
-      addCollection(res.data);
+      await createCollection({ name, category });
+      const res = await getCollections();
+      setCollections(res.data);
       toast.success("Collection created!");
       setOpen(false);
       setName("");
@@ -64,7 +65,6 @@ export default function CollectionPage() {
 
   const handleDelete = async (e, id) => {
     e.stopPropagation();
-    if (!window.confirm("Delete this collection?")) return;
     try {
       await deleteCollection(id);
       removeCollection(id);
