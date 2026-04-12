@@ -48,7 +48,7 @@ export const sendMessage = async (req, res) => {
     const ragResponse = await axios.post(`${RAG_URL}/query`, {
       collection_id: chat.collectionId.toString(),
       question,
-    });
+    }, { timeout: 120000 });
     const { answer, sources: rawSources } = ragResponse.data;
     const seen = new Set();
     const uniqueSources = rawSources.filter((src) => {

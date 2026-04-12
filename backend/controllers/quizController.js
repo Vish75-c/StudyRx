@@ -30,12 +30,12 @@ export const generateQuiz = async (req, res) => {
         .json({ message: "Collection has no documents uploaded" });
     }
 
-    // Call Python RAG service
+    // Call Python RAG service (LLM generation can take 60+ seconds)
     const ragResponse = await axios.post(`${RAG_URL}/quiz/generate`, {
       collection_id: collectionId.toString(),
       num_questions: numQuestions,
       difficulty,
-    });
+    }, { timeout: 120000 });
 
     const { questions } = ragResponse.data;
 
@@ -97,7 +97,7 @@ export const submitQuiz = async (req, res) => {
       collection_id: quiz.collectionId.toString(),
       questions: questionsForRag,
       user_answers: userAnswers,
-    });
+    }, { timeout: 120000 });
 
     const { score, total, percentage, grade, results } = ragResponse.data;
 
