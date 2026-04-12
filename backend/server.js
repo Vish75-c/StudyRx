@@ -21,7 +21,7 @@ if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://your-app.vercel.app",
+    "https://study-rx.vercel.app/",
   ],
   credentials: true,
 }));app.use(cookieParser())
