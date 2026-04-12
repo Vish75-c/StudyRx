@@ -62,8 +62,10 @@ export const generateQuiz = async (req, res) => {
 
     res.status(201).json(quiz);
   } catch (error) {
-    console.error("Generate quiz error:", error.message);
-    res.status(500).json({ message: error.message });
+    const ragError = error.response?.data?.detail || error.response?.data?.message || error.message;
+    console.error("Generate quiz error:", ragError);
+    console.error("Full error:", error.response?.data || error.message);
+    res.status(500).json({ message: ragError });
   }
 };
 
