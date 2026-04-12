@@ -18,8 +18,13 @@ const app=express();
 // Create uploads folder if not exists
 if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
 
-app.use(cors())
-app.use(cookieParser())
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://your-app.vercel.app",
+  ],
+  credentials: true,
+}));app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 

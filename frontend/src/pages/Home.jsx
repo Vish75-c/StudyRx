@@ -24,7 +24,7 @@ import {
   Cpu,
   Layers,
 } from "lucide-react";
-import Footer from "@/components/Common/footer";
+import Footer from "@/components/Common/Footer";
 import studying from "../assests/studying.webp"
 import Logo from "@/components/Logo";
 /* ── animation helpers ── */
