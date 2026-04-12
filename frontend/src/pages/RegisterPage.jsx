@@ -11,7 +11,7 @@ import useAuthStore from "@/stores/authStore";
 import toast from "react-hot-toast";
 import Footer from "@/components/Common/FooterAuth";
 import AuthNavbar from "@/components/Common/NavbarAuth";
-
+import Logo from "@/components/Logo";
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] } }),
@@ -135,12 +135,14 @@ export default function RegisterPage() {
             <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-sm p-8 shadow-2xl shadow-slate-200/50 card-glow">
 
               {/* Logo */}
-              <Link to="/" className="flex items-center justify-center gap-2.5 mb-8 group">
-                <div className="p-2 rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:scale-105 transition-transform duration-200">
-                  <Brain className="h-7 w-7 text-white" />
-                </div>
+               <Link to="/" className="flex items-center justify-center gap-2.5 mb-2 group">
+                <Link to="/dashboard" className="flex items-center gap-1.5 group">
+            <div className="flex items-center justify-center">
+              <Logo className="h-7 w-7 text-white" />
+            </div>
+          </Link>
                 <span className="text-2xl font-bold text-slate-900 font-[Syne]">
-                  Medi<span className="gradient-text">Query</span>
+                  Study<span className="gradient-text">Rx</span>
                 </span>
               </Link>
 

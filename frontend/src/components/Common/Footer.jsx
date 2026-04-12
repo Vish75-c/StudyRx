@@ -6,7 +6,7 @@ import {
   Brain, Github, Twitter, Linkedin, Mail,
   ShieldCheck, Globe, Scale, HeartPulse, Sparkles
 } from "lucide-react";
-
+import Logo from "../Logo";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -50,12 +50,16 @@ export default function Footer() {
 
           {/* Brand & Newsletter */}
           <div className="lg:col-span-2 space-y-6">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-md group-hover:shadow-violet-200 transition-shadow">
-                <Brain className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-slate-900 font-[Syne]">StudyRx</span>
-            </Link>
+             <Link to="/" className="flex items-center gap-2.5  group">
+                <Link to="/dashboard" className="flex items-center justify-center gap-1.5 group">
+            <div className="flex items-center justify-center">
+              <Logo className="h-7 w-7 text-white" />
+            </div>
+          </Link>
+                <span className="text-2xl font-bold text-slate-900 font-[Syne]">
+                  Study<span className="gradient-text">Rx</span>
+                </span>
+              </Link>
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
               The intelligent RAG platform designed for healthcare professionals.
               Securely query medical documents, research, and guidelines with AI-driven precision.

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: `https://medic-ai-1.onrender.com/api`,
+  baseURL:`${import.meta.env.VITE_API_URL}/api`
+  // baseURL: `https://medic-ai-1.onrender.com/api`,
   // baseURL:"http://localhost:3000/api",
 });
 

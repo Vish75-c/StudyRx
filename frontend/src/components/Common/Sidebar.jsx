@@ -12,6 +12,7 @@ import useCollectionStore from "@/stores/collectionStore";
 import { createChat, deleteChat, getChatHistory, getCollections } from "@/utils/api";
 import toast from "react-hot-toast";
 import { cn } from "../../utils/cn";
+import Logo from "../Logo";
 
 const navItems = [
   { icon: <LayoutDashboard className="h-4.5 w-4.5" />, label: "Dashboard", path: "/dashboard" },
@@ -111,9 +112,9 @@ export default function Sidebar({ open, onClose }) {
       >
         {/* Logo */}
         <div className="flex items-center justify-between border-b border-slate-100 p-5">
-          <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50 group-hover:shadow-violet-300/50 transition-shadow">
-              <Brain className="h-5 w-5 text-white" />
+          <Link to="/dashboard" className="flex items-center gap-1.5 group">
+            <div className="flex items-center justify-center">
+              <Logo className="h-7 w-7 text-white" />
             </div>
             <span className="text-lg font-bold text-slate-900 font-[Syne]">StudyRx</span>
           </Link>

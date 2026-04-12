@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Common/footer";
 import studying from "../assests/studying.webp"
+import Logo from "@/components/Logo";
 /* ── animation helpers ── */
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -203,8 +204,8 @@ export default function Home() {
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:shadow-violet-300 transition-shadow duration-300">
-              <Brain className="h-5 w-5 text-white" />
+            <div className="flex  items-center justify-center">
+              <Logo className="h-5 w-5 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">
               StudyRx
@@ -308,14 +309,7 @@ export default function Home() {
                   <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-13 px-8 border-slate-200 text-slate-700 hover:bg-white hover:border-violet-200 hover:text-violet-700 transition-all"
-                asChild
-              >
-                <Link to="/login">Watch Demo</Link>
-              </Button>
+              
             </motion.div>
 
             {/* trust bar */}

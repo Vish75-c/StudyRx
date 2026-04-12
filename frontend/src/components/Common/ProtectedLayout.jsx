@@ -30,7 +30,6 @@ export default function ProtectedLayout() {
           </button>
 
           <div className="min-w-0 flex items-center gap-2">
-            <Brain className="h-4 w-4 text-violet-500 hidden lg:block" />
             <p className="text-sm font-semibold text-slate-900 font-[Syne]">StudyRx</p>
           </div>
         </header>
