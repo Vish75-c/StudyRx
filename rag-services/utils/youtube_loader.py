@@ -1,9 +1,4 @@
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import (
-    TranscriptsDisabled,
-    NoTranscriptFound,
-    VideoUnavailable,
-)
 from langchain_core.documents import Document
 from utils.text_splitter import split_documents
 from urllib.parse import urlparse, parse_qs
@@ -13,96 +8,47 @@ import re
 def extract_video_id(url: str):
     parsed = urlparse(url)
     query = parse_qs(parsed.query)
-
     if "v" in query:
         return query["v"][0]
-
     patterns = [
         r"youtu\.be/([0-9A-Za-z_-]{11})",
         r"/shorts/([0-9A-Za-z_-]{11})",
         r"/embed/([0-9A-Za-z_-]{11})",
     ]
-
     for pattern in patterns:
         match = re.search(pattern, url)
         if match:
             return match.group(1)
-
     return None
 
 
 def fetch_transcript(video_id: str) -> list:
-    """
-    v1.2.4 uses instance-based API: YouTubeTranscriptApi()
-    Tries multiple language fallbacks.
-    """
-    api = YouTubeTranscriptApi()
+    """Fetch transcript using the modern instance-based API (v1.0+)."""
+    ytt_api = YouTubeTranscriptApi()
 
-    # Strategy 1: list transcripts and pick best
-    try:
-        transcript_list = api.list(video_id)
-
-        preferred = ["en", "en-US", "en-GB", "hi"]
-
-        # Try preferred languages
+    # Try preferred languages first
+    for lang in ["en", "en-US", "en-GB", "hi"]:
         try:
-            t = transcript_list.find_transcript(preferred)
-            fetched = t.fetch()
-            return [{"text": s.text, "start": s.start, "duration": s.duration} for s in fetched]
-        except Exception:
-            pass
-
-        # Any manual transcript
-        for t in transcript_list:
-            if not t.is_generated:
-                try:
-                    fetched = t.fetch()
-                    return [{"text": s.text, "start": s.start, "duration": s.duration} for s in fetched]
-                except Exception:
-                    continue
-
-        # Any auto-generated transcript
-        for t in transcript_list:
-            if t.is_generated:
-                try:
-                    fetched = t.fetch()
-                    return [{"text": s.text, "start": s.start, "duration": s.duration} for s in fetched]
-                except Exception:
-                    continue
-
-        # Absolute fallback
-        for t in transcript_list:
-            try:
-                fetched = t.fetch()
-                return [{"text": s.text, "start": s.start, "duration": s.duration} for s in fetched]
-            except Exception:
-                continue
-
-    except Exception as list_err:
-        print(f"[youtube_loader] list() failed: {list_err}")
-
-    # Strategy 2: direct fetch with language fallback
-    preferred_langs = ["en", "en-US", "en-GB", "hi"]
-    for lang in preferred_langs:
-        try:
-            fetched = api.fetch(video_id, languages=[lang])
-            return [{"text": s.text, "start": s.start, "duration": s.duration} for s in fetched]
-        except Exception:
+            transcript = ytt_api.fetch(video_id, languages=[lang])
+            return transcript.to_raw_data()
+        except Exception as e:
+            print(f"[youtube] lang {lang} failed: {e}")
             continue
 
-    # Strategy 3: fetch with no language preference
+    # Fallback: list all available transcripts and pick the first one
     try:
-        fetched = api.fetch(video_id)
-        # v1.2.4 returns FetchedTranscript object — iterate its snippets
-        result = []
-        for s in fetched:
-            if hasattr(s, "text"):
-                result.append({"text": s.text, "start": s.start, "duration": s.duration})
-            elif isinstance(s, dict):
-                result.append(s)
-        return result
+        transcript_list = ytt_api.list(video_id)
+        for t in transcript_list:
+            try:
+                transcript = ytt_api.fetch(video_id, languages=[t.language_code])
+                return transcript.to_raw_data()
+            except Exception as e:
+                print(f"[youtube] fallback failed for {t.language_code}: {e}")
+                continue
     except Exception as e:
         raise RuntimeError(f"All transcript fetch strategies failed: {e}")
+
+    raise RuntimeError("No transcript could be fetched.")
 
 
 def load_youtube(url: str, collection_id: str):
@@ -114,15 +60,6 @@ def load_youtube(url: str, collection_id: str):
 
     try:
         transcript = fetch_transcript(video_id)
-    except TranscriptsDisabled:
-        raise ValueError("Transcripts are disabled for this video.")
-    except VideoUnavailable:
-        raise ValueError("This video is unavailable or private.")
-    except NoTranscriptFound:
-        raise ValueError(
-            "No transcript found for this video in any language. "
-            "The video may not have captions enabled."
-        )
     except Exception as e:
         raise RuntimeError(f"YouTube transcript error: {e}")
 

@@ -1,23 +1,69 @@
-from services.vectorstore import get_vectorstore
+from services.vectorstore import get_vectorstore, get_chroma_client
 from services.groq_llm import get_llm
+from langchain_core.documents import Document
+from collections import defaultdict
 import traceback
 import json
 import re
+import random
 
 
 def get_chunks_from_collection(collection_id: str, num_questions: int):
-    """Fetch relevant text chunks from ChromaDB for quiz generation."""
+    """Fetch text chunks from ALL documents in ChromaDB for quiz generation.
+    
+    Uses round-robin sampling across different source documents to ensure
+    diverse content coverage instead of biasing toward a single document.
+    """
     try:
-        vectorstore = get_vectorstore(collection_id)
-        # Fetch 3x the number of questions for diverse content
-        num_chunks = num_questions * 3
-        retriever = vectorstore.as_retriever(
-            search_type="similarity",
-            search_kwargs={"k": num_chunks}
-        )
-        docs = retriever.invoke("key concepts topics definitions important facts")
-        print(f"[QUIZ] Retrieved {len(docs)} chunks from collection {collection_id}")
-        return docs
+        # Directly query ChromaDB to get ALL chunks in this collection
+        client = get_chroma_client()
+        collection = client.get_collection(name=collection_id)
+        all_data = collection.get(include=["documents", "metadatas"])
+
+        if not all_data["documents"]:
+            raise Exception("No documents found in this collection")
+
+        # Group chunks by their source document
+        source_groups = defaultdict(list)
+        for doc_text, metadata in zip(all_data["documents"], all_data["metadatas"]):
+            source = (metadata or {}).get("source", "unknown")
+            source_groups[source].append(
+                Document(page_content=doc_text, metadata=metadata or {})
+            )
+
+        print(f"[QUIZ] Collection '{collection_id}' has {len(all_data['documents'])} chunks "
+              f"across {len(source_groups)} source document(s): {list(source_groups.keys())}")
+
+        # Shuffle chunks within each source for variety
+        for source in source_groups:
+            random.shuffle(source_groups[source])
+
+        # Round-robin sample across all sources for diversity
+        num_chunks = min(num_questions * 3, len(all_data["documents"]))
+        sampled_docs = []
+        source_iters = {src: iter(chunks) for src, chunks in source_groups.items()}
+        sources_list = list(source_iters.keys())
+
+        while len(sampled_docs) < num_chunks and source_iters:
+            exhausted = []
+            for src in sources_list:
+                if src not in source_iters:
+                    continue
+                try:
+                    sampled_docs.append(next(source_iters[src]))
+                    if len(sampled_docs) >= num_chunks:
+                        break
+                except StopIteration:
+                    exhausted.append(src)
+            for src in exhausted:
+                del source_iters[src]
+            sources_list = [s for s in sources_list if s in source_iters]
+
+        # Shuffle the final selection so questions aren't grouped by document
+        random.shuffle(sampled_docs)
+
+        print(f"[QUIZ] Sampled {len(sampled_docs)} chunks across {len(source_groups)} source(s)")
+        return sampled_docs
     except Exception as e:
         traceback.print_exc()
         raise e
@@ -33,10 +79,39 @@ def generate_quiz(collection_id: str, num_questions: int = 10, difficulty: str =
         if not docs:
             raise Exception("No documents found in this collection")
 
-        # 2. Combine chunks into context
-        context = "\n\n".join([doc.page_content for doc in docs])
-        # Limit context to avoid token limits
-        context = context[:8000]
+        # 2. Group chunks by source and build context with equal budget per source
+        from collections import defaultdict as _defaultdict
+        source_chunks = _defaultdict(list)
+        for doc in docs:
+            src = doc.metadata.get("source", "unknown")
+            source_chunks[src].append(doc.page_content)
+
+        num_sources = len(source_chunks)
+        max_context = 8000
+        budget_per_source = max_context // max(num_sources, 1)
+
+        context_parts = []
+        source_names = []
+        for src, chunks in source_chunks.items():
+            src_type = "document"
+            if "youtube.com" in src or "youtu.be" in src:
+                src_type = "YouTube video"
+            elif src.startswith("http"):
+                src_type = "web article"
+            else:
+                src_type = "PDF document"
+            source_names.append(f"{src_type} ({src})")
+
+            combined = "\n".join(chunks)
+            # Truncate each source to its fair share of the budget
+            combined = combined[:budget_per_source]
+            context_parts.append(f"--- SOURCE: {src_type} — {src} ---\n{combined}")
+
+        context = "\n\n".join(context_parts)
+        source_list_str = ", ".join(source_names)
+
+        print(f"[QUIZ] Context built from {num_sources} source(s): {source_list_str}")
+        print(f"[QUIZ] Total context length: {len(context)} chars")
 
         # 3. Build difficulty instructions
         difficulty_instructions = {
@@ -47,16 +122,20 @@ def generate_quiz(collection_id: str, num_questions: int = 10, difficulty: str =
 
         diff_instruction = difficulty_instructions.get(difficulty, difficulty_instructions["medium"])
 
-        # 4. Build prompt
+        # 4. Build prompt — explicitly instruct to cover ALL sources
         prompt = f"""You are a quiz generator. Based on the following document content, generate exactly {num_questions} multiple choice questions.
 
 {diff_instruction}
+
+The content comes from {num_sources} different sources: {source_list_str}.
+You MUST generate questions that cover ALL of these sources — distribute questions roughly equally across sources.
 
 IMPORTANT RULES:
 - Each question must have exactly 4 options: A, B, C, D
 - Only ONE option should be correct
 - Questions must be based ONLY on the provided content
 - Each question must have a topic field identifying the subject area
+- You MUST include questions from EVERY source listed above, not just one
 - Return ONLY valid JSON, no other text
 
 Return the questions in this exact JSON format:
@@ -77,7 +156,7 @@ Return the questions in this exact JSON format:
 Document Content:
 {context}
 
-Generate exactly {num_questions} questions now. Return ONLY the JSON array:"""
+Generate exactly {num_questions} questions covering ALL {num_sources} sources. Return ONLY the JSON array:"""
 
         # 5. Send to Groq
         llm = get_llm()

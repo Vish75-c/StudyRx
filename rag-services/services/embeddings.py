@@ -1,6 +1,8 @@
-from langchain_community.embeddings import HuggingFaceEmbeddings
-
+import os
+from langchain_community.embeddings import CohereEmbeddings
 
 def get_embeddings():
-    embeddings = HuggingFaceEmbeddings()
-    return embeddings
+    return CohereEmbeddings(
+        model="embed-english-light-v3.0",
+        cohere_api_key=os.getenv("COHERE_API_KEY")
+    )

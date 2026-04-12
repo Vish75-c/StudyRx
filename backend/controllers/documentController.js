@@ -10,7 +10,6 @@ const RAG_URL = process.env.RAG_SERVICE_URL;
 export const uploadPDF = async (req, res) => {
   try {
     console.log("IVS");
-    const RAG_URL = process.env.RAG_SERVICE_URL;
     console.log(RAG_URL)
     const { collectionId, documentName } = req.body;
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
