@@ -12,4 +12,4 @@ collectionsRoutes.get("/:id", getCollectionById);
 collectionsRoutes.put("/:id", updateCollection);
 collectionsRoutes.delete("/:id", deleteCollection);
 
-export default collectionsRoutes
+export default collectionsRoutes 
