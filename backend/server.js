@@ -56,7 +56,7 @@ server.keepAliveTimeout = 300000; // keep socket alive for long requests
 
 // ── Keep-alive pinger: prevent Render free-tier from sleeping ──
 const RAG_URL = process.env.RAG_SERVICE_URL;
-const SELF_URL = process.env.SELF_URL; // e.g. https://medic-ai-1.onrender.com
+const SELF_URL = process.env.RENDER_EXTERNAL_URL; // Render sets this automatically
 
 const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes
 
