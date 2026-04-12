@@ -1,199 +1,123 @@
 # 💊 StudyRx — AI Study Partner for Medical Students
 
-> Upload your notes. Chat with them. Quiz yourself. Score better.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://study-rx.vercel.app/)
+
+> **Stop drowning in PDFs. Start chatting with your syllabus.**
+
+StudyRx is a specialized Retrieval-Augmented Generation (RAG) platform designed specifically for the rigorous demands of medical education. It transforms static lecture notes, complex drug manuals, and research papers into an interactive, searchable knowledge base.
 
 ---
 
-## What is StudyRx?
+## 🌟 Key Features
 
-StudyRx is an AI powered study tool built for medical students.
-
-You have hundreds of PDFs, lecture notes, drug manuals and research papers. Finding anything specific inside all of them takes forever. Studying from them is even harder.
-
-StudyRx fixes that.
-
-Upload your study material, ask questions in plain English, and get answers directly from your own notes — not from the internet, not from an AI making things up — from exactly what your professor taught you.
-
-Then test yourself with an AI generated quiz based on your own uploaded content and track how your scores improve over time.
+* **📚 Precision Chat:** Ask questions in plain English and receive answers grounded *only* in your uploaded materials.
+* **📍 Source Citation:** Every answer includes the exact document name and page number for immediate verification.
+* **🧠 Intelligent Quiz Engine:** Generate custom MCQ quizzes (5-20 questions) based on your notes with adjustable difficulty (Easy, Medium, Hard).
+* **⏱️ Exam Simulation:** Practice under pressure with a countdown timer and structured navigation.
+* **📊 Performance Tracking:** Review detailed explanations for every question and track your score improvement over time.
+* **🗂️ Subject Organization:** Group your content into dedicated collections like Anatomy, Physiology, or Pharmacology.
 
 ---
 
-## Who is this for?
+## 🛠️ Architecture & Tech Stack
 
-- MBBS and medical students preparing for exams
-- Students who want to study smarter not harder
-- Anyone buried under a pile of PDFs they never know how to properly study from
+The system utilizes a modern decoupled architecture to handle heavy PDF processing and low-latency AI responses.
 
----
-
-## What can you do?
-
-### 📚 Chat with your notes
-Upload a PDF of your anatomy textbook, paste a link to a medical article, or add a YouTube lecture. Then ask questions like you would ask a senior student. Get answers with the exact page number the answer came from.
-
-```
-You:  "What is the mechanism of action of beta blockers?"
-AI:   "According to your Pharmacology notes (Page 47), beta blockers
-       work by competitively blocking catecholamines at beta-adrenergic
-       receptors, reducing heart rate and blood pressure..."
-```
-
-### 🧠 Generate a quiz from your notes
-Select any collection and generate 5, 10, 15 or 20 questions. Choose easy, medium or hard difficulty. The AI reads your actual uploaded notes — not generic internet questions.
-
-### ⏱️ Take the quiz with a timer
-MCQ format with countdown timer. Navigate between questions, change answers, submit when ready.
-
-### 📊 See your score and learn from mistakes
-After submitting, see your percentage, grade, which answers were wrong, and an AI generated explanation for every question — with context pulled directly from your notes.
-
-### 📈 Track your progress
-Every attempt is saved. See how your scores improve as exams get closer. Best score, average score, total attempts — all tracked per subject.
-
-### 🗂️ Organise by subject
-Create collections for Anatomy, Physiology, Pharmacology, Pathology — upload relevant content to each and keep everything organised.
+| Layer | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend** | React, Vite, Tailwind CSS | High-performance, responsive UI with Zustand state management. |
+| **Backend** | Node.js, Express, MongoDB | User authentication, metadata management, and session tracking. |
+| **AI Service** | Python, FastAPI, LangChain | The RAG engine handling document chunking and retrieval logic. |
+| **LLM** | LLaMA 3.3 (via Groq) | High-speed inference for natural language understanding. |
+| **Vector DB** | Pinecone | Storing and querying high-dimensional embeddings. |
+| **Embeddings** | HuggingFace Inference | Converting text into mathematical vectors. |
 
 ---
 
-## How it works
+## 🧬 How It Works
 
-```
-1. You upload a PDF / URL / YouTube lecture
-           ↓
-2. AI reads and indexes every page
-           ↓
-3. You ask a question or start a quiz
-           ↓
-4. AI finds the most relevant content
-           ↓
-5. Answer generated from YOUR notes only
-           ↓
-6. Source + page number shown with every answer
-```
-
-The AI never answers from outside your uploaded content. No hallucinations. No random internet facts. Just your syllabus.
+1.  **Ingestion:** Documents (PDFs, URLs, or YouTube transcripts) are uploaded.
+2.  **Indexing:** The AI shreds the content into manageable chunks and generates vector embeddings.
+3.  **Storage:** These vectors are stored in **Pinecone** for semantic search.
+4.  **Retrieval:** When you ask a question, the system retrieves the most relevant snippets from your notes.
+5.  **Generation:** **LLaMA 3.3** generates a concise answer using the retrieved context—**no hallucinations**, no internet search.
 
 ---
 
-## Features
-
-- Upload PDFs, website links and YouTube lecture transcripts
-- Chat with documents and get source cited answers
-- AI generated MCQ quizzes from your own notes
-- Easy, medium and hard difficulty levels
-- Countdown timer during quiz
-- Detailed score with per question explanations
-- Full attempt history to track improvement
-- Organise content into subject collections
-- Secure login so your notes stay private
-- Export chat as PDF
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | React, Vite, Tailwind CSS, Zustand |
-| Backend | Node.js, Express.js, MongoDB Atlas |
-| AI Service | Python, FastAPI, LangChain |
-| Vector Database | Pinecone |
-| LLM | LLaMA3 via Groq API |
-| Embeddings | HuggingFace Inference API |
-| Deployment | Vercel + Render |
-
----
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 16+
 - Python 3.11
-- MongoDB Atlas account (free)
-- Groq API key (free at groq.com)
-- Pinecone account (free at pinecone.io)
-- HuggingFace account (free at huggingface.co)
+- API Keys: Groq, Pinecone, HuggingFace
 
-### Setup
+### Local Setup
 
-```bash
-# Clone repo
-git clone https://github.com/yourusername/studyrx.git
-cd studyrx
+1. **Clone the Repo**
+   ```bash
+   git clone https://github.com/yourusername/studyrx.git
+   cd studyrx
+   ```
 
-# RAG Service
-cd rag-service
-py -3.11 -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env
-# Fill in GROQ_API_KEY, PINECONE_API_KEY, HUGGINGFACE_API_KEY
-uvicorn main:app --reload --port 8000
+2. **RAG Service (Python)**
+   ```bash
+   cd rag-service
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   # Configure .env with API keys
+   uvicorn main:app --reload --port 8000
+   ```
 
-# Backend
-cd ../backend
-npm install
-cp .env.example .env
-# Fill in MONGODB_URI, JWT_SECRET, RAG_SERVICE_URL
-npm run dev
+3. **Backend (Node.js)**
+   ```bash
+   cd ../backend
+   npm install
+   # Configure .env with MONGODB_URI & JWT_SECRET
+   npm run dev
+   ```
 
-# Frontend
-cd ../frontend
-npm install
-cp .env.example .env
-# Set VITE_API_URL=http://localhost:5000/api
-npm run dev
-```
-
-Open `http://localhost:5173`
+4. **Frontend (React)**
+   ```bash
+   cd ../frontend
+   npm install
+   # Set VITE_API_URL=http://localhost:5000/api
+   npm run dev
+   ```
 
 ---
 
-## Environment Variables
+## 🔑 Environment Variables
 
-### backend/.env
+### `rag-service/.env`
+```env
+GROQ_API_KEY=your_key
+PINECONE_API_KEY=your_key
+PINECONE_INDEX=studyrx
+HUGGINGFACE_API_KEY=your_token
 ```
+
+### `backend/.env`
+```env
 PORT=5000
-MONGODB_URI=your_mongodb_atlas_uri
-JWT_SECRET=your_secret_key
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_secret
 RAG_SERVICE_URL=http://localhost:8000
 ```
 
-### rag-service/.env
-```
-GROQ_API_KEY=your_groq_api_key
-PINECONE_API_KEY=your_pinecone_api_key
-PINECONE_INDEX=studyrx
-HUGGINGFACE_API_KEY=your_hf_token
-```
+---
 
-### frontend/.env
-```
-VITE_API_URL=http://localhost:5000/api
-```
+## ☁️ Deployment
+
+Optimized for high availability on a ₹0 budget:
+- **Frontend:** Vercel
+- **Backend/RAG:** Render
+- **Database:** MongoDB Atlas & Pinecone Starter
 
 ---
 
-## Deployment
-
-| Service | Platform | Cost |
-|---|---|---|
-| Frontend | Vercel | Free |
-| Backend | Render | Free |
-| RAG Service | Render | Free |
-| Database | MongoDB Atlas | Free |
-| Vector DB | Pinecone | Free |
-| LLM | Groq API | Free |
-| Embeddings | HuggingFace API | Free |
-
-**Total cost: ₹0**
+## ⚠️ Disclaimer
+StudyRx is a study aid. Always verify critical information with primary medical textbooks, faculty, and clinical guidelines.
 
 ---
-
-## Disclaimer
-
-StudyRx is a study aid only. Always verify important information with your textbooks, professors and clinical supervisors. Not a substitute for medical education or professional advice.
-
----
-
-Built by a student, for students 💊
+*Built with ❤️ by a student for students.*
