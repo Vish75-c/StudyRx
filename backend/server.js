@@ -10,6 +10,7 @@ import documentRoutes from "./routes/documents.js"
 import quizRoutes from "./routes/quiz.js"
 import errorHandler from "./middleware/errorHandler.js"
 import fs from "fs"
+import axios from "axios"
 
 dotenv.config();
 const PORT=process.env.PORT||3001
@@ -52,3 +53,29 @@ const server = app.listen(PORT,()=>{
 server.timeout = 300000;          // 5 min — total request/response time
 server.headersTimeout = 310000;   // slightly above timeout
 server.keepAliveTimeout = 300000; // keep socket alive for long requests
+
+// ── Keep-alive pinger: prevent Render free-tier from sleeping ──
+const RAG_URL = process.env.RAG_SERVICE_URL;
+const SELF_URL = process.env.SELF_URL; // e.g. https://medic-ai-1.onrender.com
+
+const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes
+
+function keepAlive() {
+  // Ping RAG service
+  if (RAG_URL) {
+    axios.get(RAG_URL)
+      .then(() => console.log(`[KEEP-ALIVE] RAG service pinged successfully`))
+      .catch((err) => console.log(`[KEEP-ALIVE] RAG service ping failed: ${err.message}`));
+  }
+  // Ping self (backend)
+  if (SELF_URL) {
+    axios.get(SELF_URL)
+      .then(() => console.log(`[KEEP-ALIVE] Self-ping successful`))
+      .catch((err) => console.log(`[KEEP-ALIVE] Self-ping failed: ${err.message}`));
+  }
+}
+
+// Start pinging after server boots
+setInterval(keepAlive, PING_INTERVAL);
+keepAlive(); // initial ping on startup
+console.log(`[KEEP-ALIVE] Pinger started — pinging every 14 minutes`);
