@@ -78,9 +78,9 @@ def get_all_documents(collection_id: str):
         batch_ids = all_ids[i:i + batch_size]
         response = index.fetch(ids=batch_ids, namespace=collection_id)
         for vec_id in batch_ids:
-            if vec_id in response["vectors"]:
-                record = response["vectors"][vec_id]
-                metadata = record.get("metadata", {})
+            if vec_id in response.vectors:
+                record = response.vectors[vec_id]
+                metadata = dict(record.metadata) if record.metadata else {}
                 # PineconeVectorStore stores the text in metadata under "text"
                 text = metadata.pop("text", "")
                 documents.append(text)
