@@ -1,5 +1,5 @@
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain_classic.chains import RetrievalQA
+from langchain_core.prompts import PromptTemplate
 from services.vectorstore import get_vectorstore
 from services.groq_llm import get_llm
 import traceback

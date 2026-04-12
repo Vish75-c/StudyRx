@@ -9,7 +9,7 @@ import {
 import useAuthStore from "@/stores/authStore";
 import useChatStore from "@/stores/chatStore";
 import useCollectionStore from "@/stores/collectionStore";
-import { createChat, deleteChat } from "@/utils/api";
+import { createChat, deleteChat, getChatHistory, getCollections } from "@/utils/api";
 import toast from "react-hot-toast";
 import { cn } from "../../utils/cn";
 
@@ -30,7 +30,17 @@ export default function Sidebar({ open, onClose }) {
   const collections = useCollectionStore((s) => s.collections);
   const isChatRoute = location.pathname.startsWith("/chats");
 
-  useEffect(() => {}, [setChats]);
+  const setCollections = useCollectionStore((s) => s.setCollections);
+
+  // Fetch chat history and collections from backend on mount
+  useEffect(() => {
+    getChatHistory()
+      .then((res) => setChats(res.data))
+      .catch(() => {});
+    getCollections()
+      .then((res) => setCollections(res.data))
+      .catch(() => {});
+  }, [setChats, setCollections]);
 
   const handleLogout = () => {
     logout();

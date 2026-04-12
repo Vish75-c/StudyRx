@@ -1,4 +1,4 @@
-from services.vectorstore import get_vectorstore, get_chroma_client
+from services.vectorstore import get_vectorstore, get_all_documents
 from services.groq_llm import get_llm
 from langchain_core.documents import Document
 from collections import defaultdict
@@ -9,16 +9,14 @@ import random
 
 
 def get_chunks_from_collection(collection_id: str, num_questions: int):
-    """Fetch text chunks from ALL documents in ChromaDB for quiz generation.
+    """Fetch text chunks from ALL documents in Pinecone for quiz generation.
     
     Uses round-robin sampling across different source documents to ensure
     diverse content coverage instead of biasing toward a single document.
     """
     try:
-        # Directly query ChromaDB to get ALL chunks in this collection
-        client = get_chroma_client()
-        collection = client.get_collection(name=collection_id)
-        all_data = collection.get(include=["documents", "metadatas"])
+        # Fetch ALL chunks from this collection namespace
+        all_data = get_all_documents(collection_id)
 
         if not all_data["documents"]:
             raise Exception("No documents found in this collection")

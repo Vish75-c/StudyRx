@@ -1,5 +1,5 @@
 import os
-from langchain_community.embeddings import CohereEmbeddings
+from langchain_cohere import CohereEmbeddings
 
 def get_embeddings():
     return CohereEmbeddings(
