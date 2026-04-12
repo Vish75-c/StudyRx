@@ -44,7 +44,11 @@ app.get("/", (req, res) => res.json({ message: "MediQuery Backend Running" }));
 app.use(errorHandler)
 
 
-app.listen(PORT,()=>{
+const server = app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
 })
 
+// Increase server timeouts so slow RAG requests (Render cold-start) don't abort
+server.timeout = 300000;          // 5 min — total request/response time
+server.headersTimeout = 310000;   // slightly above timeout
+server.keepAliveTimeout = 300000; // keep socket alive for long requests

@@ -35,7 +35,7 @@ export const generateQuiz = async (req, res) => {
       collection_id: collectionId.toString(),
       num_questions: numQuestions,
       difficulty,
-    });
+    }, { timeout: 300000 });
 
     const { questions } = ragResponse.data;
 
@@ -99,7 +99,7 @@ export const submitQuiz = async (req, res) => {
       collection_id: quiz.collectionId.toString(),
       questions: questionsForRag,
       user_answers: userAnswers,
-    });
+    }, { timeout: 300000 });
 
     const { score, total, percentage, grade, results } = ragResponse.data;
 

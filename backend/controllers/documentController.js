@@ -22,7 +22,7 @@ export const uploadPDF = async (req, res) => {
     formData.append("collection_id", collectionId);
     formData.append("document_name", documentName || req.file.originalname);
     console.log("VISITED");
-    await axios.post(`${RAG_URL}/ingest/pdf`, formData, { headers: formData.getHeaders() });
+    await axios.post(`${RAG_URL}/ingest/pdf`, formData, { headers: formData.getHeaders(), timeout: 300000 });
 
    
 
@@ -55,7 +55,7 @@ export const uploadURL = async (req, res) => {
     const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
     if (!collection) return res.status(404).json({ message: "Collection not found" });
 
-    await axios.post(`${RAG_URL}/ingest/url?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
+    await axios.post(`${RAG_URL}/ingest/url?collection_id=${collectionId}&url=${encodeURIComponent(url)}`, {}, { timeout: 300000 });
 
     const document = await Document.create({
       userId: req.user._id,
@@ -81,7 +81,7 @@ export const uploadYoutube = async (req, res) => {
     const collection = await Collection.findOne({ _id: collectionId, userId: req.user._id });
     if (!collection) return res.status(404).json({ message: "Collection not found" });
     console.log("VISITED");
-    await axios.post(`${RAG_URL}/ingest/youtube?collection_id=${collectionId}&url=${encodeURIComponent(url)}`);
+    await axios.post(`${RAG_URL}/ingest/youtube?collection_id=${collectionId}&url=${encodeURIComponent(url)}`, {}, { timeout: 300000 });
     const document = await Document.create({
       userId: req.user._id,
       collectionId,
