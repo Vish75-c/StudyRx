@@ -3,12 +3,15 @@ import Collection from "../models/collectionModel.js";
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
-
-const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000";
+import dotenv from "dotenv"
+dotenv.config();
+const RAG_URL = process.env.RAG_SERVICE_URL;
 
 export const uploadPDF = async (req, res) => {
   try {
     console.log("IVS");
+    const RAG_URL = process.env.RAG_SERVICE_URL;
+    console.log(RAG_URL)
     const { collectionId, documentName } = req.body;
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
@@ -44,6 +47,8 @@ export const uploadPDF = async (req, res) => {
 
 export const uploadURL = async (req, res) => {
   try {
+    const RAG_URL = process.env.RAG_SERVICE_URL;
+
     const { collectionId, url } = req.body;
     console.log(collectionId, url)
     if (!url) return res.status(400).json({ message: "URL is required" });
@@ -70,6 +75,7 @@ export const uploadURL = async (req, res) => {
 
 export const uploadYoutube = async (req, res) => {
   try {
+    const RAG_URL = process.env.RAG_SERVICE_URL;
     const { collectionId, url } = req.body;
     if (!url) return res.status(400).json({ message: "YouTube URL is required" });
 
@@ -94,6 +100,7 @@ export const uploadYoutube = async (req, res) => {
 
 export const getDocuments = async (req, res) => {
   try {
+    
     const documents = await Document.find({
       collectionId: req.params.collectionId,
       userId: req.user._id,

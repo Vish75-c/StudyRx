@@ -2,8 +2,9 @@ import axios from "axios";
 import Quiz from "../models/Quiz.js";
 import Collection from "../models/collectionModel.js";
 import mongoose from "mongoose";
-
-const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000";
+import dotenv from "dotenv"
+dotenv.config();
+const RAG_URL = process.env.RAG_SERVICE_URL;
 
 // POST /api/quiz/generate
 export const generateQuiz = async (req, res) => {

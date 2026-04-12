@@ -2,7 +2,9 @@ import axios from "axios";
 import Chat from "../models/chatModel.js";
 import exportChatAsPDF from "../utils/exportPDF.js";
 import mongoose from "mongoose";
-const RAG_URL = process.env.RAG_SERVICE_URL || "http://localhost:8000";
+import dotenv from "dotenv"
+dotenv.config();
+const RAG_URL = process.env.RAG_SERVICE_URL;
 
 export const createChat = async (req, res) => {
   try {
