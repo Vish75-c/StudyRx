@@ -16,7 +16,7 @@ export default function AuthNavbar() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200 group-hover:shadow-violet-300 transition-shadow duration-300">
             <Brain className="h-5 w-5 text-white" />
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">Medic.AI</span>
+          <span className="text-lg font-bold tracking-tight text-slate-900 font-[Syne]">StudyRx</span>
         </Link>
 
         <div className="flex items-center gap-3">

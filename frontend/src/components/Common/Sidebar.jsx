@@ -115,7 +115,7 @@ export default function Sidebar({ open, onClose }) {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-200/50 group-hover:shadow-violet-300/50 transition-shadow">
               <Brain className="h-5 w-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-slate-900 font-[Syne]">Medic.AI</span>
+            <span className="text-lg font-bold text-slate-900 font-[Syne]">StudyRx</span>
           </Link>
 
           <button

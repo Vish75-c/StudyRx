@@ -31,7 +31,7 @@ export default function ProtectedLayout() {
 
           <div className="min-w-0 flex items-center gap-2">
             <Brain className="h-4 w-4 text-violet-500 hidden lg:block" />
-            <p className="text-sm font-semibold text-slate-900 font-[Syne]">Medic.AI</p>
+            <p className="text-sm font-semibold text-slate-900 font-[Syne]">StudyRx</p>
           </div>
         </header>
 
@@ -44,7 +44,7 @@ export default function ProtectedLayout() {
         {!isChatPage && (
           <footer className="border-t border-slate-100 bg-white/80 backdrop-blur-sm px-4 py-4 text-sm text-slate-400 lg:px-6">
             <div className="flex font-medium text-xs flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <p>© 2026 Medic.AI. All rights reserved.</p>
+              <p>© 2026 StudyRx. All rights reserved.</p>
               <p className="text-xs text-slate-400">~Vishal</p>
             </div>
           </footer>

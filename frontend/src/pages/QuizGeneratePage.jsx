@@ -90,7 +90,7 @@ export default function QuizGeneratePage() {
         initial="hidden"
         animate="visible"
         variants={stagger}
-        className="mx-auto max-w-3xl py-10 px-4 sm:px-6"
+        className="mx-auto max-w-5xl py-10 px-4 sm:px-6"
       >
         {/* Back */}
         <motion.button

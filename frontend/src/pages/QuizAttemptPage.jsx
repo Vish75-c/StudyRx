@@ -132,7 +132,7 @@ export default function QuizAttemptPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-left">
-      <div className="mx-auto max-w-3xl py-6 px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl py-6 px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6 p-4 bg-white rounded-2xl border border-slate-100 card-glow">
           <div className="flex items-center justify-between mb-3">

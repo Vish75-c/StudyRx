@@ -54,7 +54,7 @@ export default function Footer() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-indigo-600 shadow-md group-hover:shadow-violet-200 transition-shadow">
                 <Brain className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-slate-900 font-[Syne]">Medic.AI</span>
+              <span className="text-xl font-bold tracking-tight text-slate-900 font-[Syne]">StudyRx</span>
             </Link>
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
               The intelligent RAG platform designed for healthcare professionals.
@@ -111,7 +111,7 @@ export default function Footer() {
                 ))}
               </div>
               <p className="text-xs text-slate-400 font-medium">
-                © {currentYear} Medic.AI. All rights reserved. Built with
+                © {currentYear} StudyRx. All rights reserved. Built with
                 <HeartPulse className="h-3 w-3 inline mx-1 text-red-400" /> for healthcare.
               </p>
             </div>
@@ -126,7 +126,7 @@ export default function Footer() {
               <Sparkles className="h-3 w-3" /> Medical Disclaimer
             </p>
             <p className="text-xs text-slate-400 text-center italic leading-relaxed max-w-4xl mx-auto">
-              Medic.AI is an AI-powered informational tool designed to assist healthcare professionals in navigating
+              StudyRx is an AI-powered informational tool designed to assist healthcare professionals in navigating
               their own documents. It does not provide medical advice, diagnosis, or treatment recommendations.
               Always rely on primary sources and professional clinical judgment for patient care decisions.
             </p>

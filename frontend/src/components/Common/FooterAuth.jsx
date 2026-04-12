@@ -37,7 +37,7 @@ export default function FooterAuth() {
                 ))}
               </div>
               <p className="text-xs text-slate-400 font-medium">
-                © {currentYear} Medic.AI. All rights reserved. Built with
+                © {currentYear} StudyRx. All rights reserved. Built with
                 <HeartPulse className="h-3 w-3 inline mx-1 text-red-400" /> for healthcare.
               </p>
             </div>
@@ -50,7 +50,7 @@ export default function FooterAuth() {
               <Sparkles className="h-3 w-3" /> Medical Disclaimer
             </p>
             <p className="text-xs text-slate-400 text-center italic leading-relaxed max-w-4xl mx-auto">
-              Medic.AI is an AI-powered informational tool designed to assist healthcare professionals in navigating
+              StudyRx is an AI-powered informational tool designed to assist healthcare professionals in navigating
               their own documents. It does not provide medical advice, diagnosis, or treatment recommendations.
               Always rely on primary sources and professional clinical judgment for patient care decisions.
             </p>
