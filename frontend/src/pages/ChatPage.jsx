@@ -81,7 +81,7 @@ export default function ChatPage() {
             <div>
               <p className="text-lg font-bold text-slate-900 font-[Syne]">No chat selected</p>
               <p className="text-sm text-slate-500 mx-auto max-w-xs mt-1">
-                Open a chat from the sidebar or create a new one to start your medical research.
+                Open a chat from the sidebar or create a new one to start your  research.
               </p>
             </div>
           </motion.div>
@@ -98,7 +98,7 @@ export default function ChatPage() {
                 <h2 className="text-sm font-bold text-slate-900 truncate max-w-[50vw] sm:max-w-[60vw]">
                   {activeChat?.title ?? "Loading Research Chat..."}
                 </h2>
-                <p className="text-[11px] text-slate-400 font-medium">AI Medical Research Assistant</p>
+                <p className="text-[11px] text-slate-400 font-medium">AI  Research Assistant</p>
               </div>
             </div>
             <button
@@ -127,7 +127,7 @@ export default function ChatPage() {
                 >
                   <Sparkles className="h-8 w-8 text-violet-300 mx-auto" />
                   <p className="text-slate-400 text-sm font-medium max-w-md">
-                    Ask a question about your uploaded medical documents...
+                    Ask a question about your uploaded  documents...
                   </p>
                 </motion.div>
               </div>

@@ -157,7 +157,7 @@ export default function UploadModal({ collectionId, onClose, onSuccess }) {
                 placeholder={
                   tab === "youtube"
                     ? "https://youtube.com/watch?v=..."
-                    : "https://example.com/medical-article"
+                    : "https://example.com/-article"
                 }
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all"
               />

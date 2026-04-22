@@ -94,7 +94,7 @@ export default function DashboardPage() {
             Welcome back, {user?.name?.split(" ")[0] || "User"} 👋
           </h1>
           <p className="text-slate-500 mt-1">
-            Here's an overview of your medical knowledge base
+            Here's an overview of your  knowledge base
           </p>
         </motion.div>
 

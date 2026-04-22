@@ -175,7 +175,7 @@ export default function CollectionDetailPage() {
             </div>
             <p className="text-lg font-bold text-slate-900 font-[Syne]">No documents yet</p>
             <p className="mt-1 max-w-sm text-sm text-slate-500">
-              Upload PDFs, website URLs or medical lectures to get started.
+              Upload PDFs, website URLs or  lectures to get started.
             </p>
             <button
               onClick={() => setShowUpload(true)}

@@ -53,19 +53,19 @@ const features = [
   {
     icon: <FileText className="h-5 w-5" />,
     title: "PDF Upload",
-    desc: "Upload medical reports, research papers and clinical guidelines for instant AI-powered analysis.",
+    desc: "Upload  reports, research papers and clinical guidelines for instant AI-powered analysis.",
     color: "from-rose-500 to-pink-600",
   },
   {
     icon: <Globe className="h-5 w-5" />,
     title: "URL Ingestion",
-    desc: "Paste any medical website link and chat with its content — from PubMed to WHO guidelines.",
+    desc: "Paste any  website link and chat with its content — from PubMed to WHO guidelines.",
     color: "from-sky-500 to-cyan-600",
   },
   {
     icon: <Youtube className="h-5 w-5" />,
     title: "YouTube Lectures",
-    desc: "Extract transcripts from medical lectures and conference seminars automatically.",
+    desc: "Extract transcripts from  lectures and conference seminars automatically.",
     color: "from-red-500 to-rose-600",
   },
   {
@@ -77,7 +77,7 @@ const features = [
   {
     icon: <Zap className="h-5 w-5" />,
     title: "AI Powered",
-    desc: "Powered by LLaMA3 via Groq for fast, intelligent and contextually aware medical responses.",
+    desc: "Powered by LLaMA3 via Groq for fast, intelligent and contextually aware  responses.",
     color: "from-amber-500 to-orange-600",
   },
   {
@@ -92,7 +92,7 @@ const steps = [
   {
     step: "01",
     title: "Upload Documents",
-    desc: "Upload PDFs, paste URLs or add YouTube medical lectures.",
+    desc: "Upload PDFs, paste URLs or add YouTube  lectures.",
     icon: <FileText className="h-6 w-6" />,
   },
   {
@@ -112,7 +112,7 @@ const steps = [
 const useCases = [
   {
     icon: <BookOpen className="h-6 w-6" />,
-    title: "Medical Students",
+    title: " Students",
     desc: "Study smarter by uploading textbooks and lecture slides. Get instant answers with page references.",
     gradient: "from-blue-500/20 to-indigo-500/20",
   },
@@ -263,7 +263,7 @@ export default function Home() {
             <motion.div variants={fadeUp} custom={0}>
               <Badge className="mb-6 bg-violet-100/80 text-violet-700 border-violet-200/60 hover:bg-violet-100 px-4 py-1.5 text-xs font-medium tracking-wide backdrop-blur-sm">
                 <Sparkles className="h-3.5 w-3.5 mr-2 inline animate-pulse" />
-                AI-Powered Medical Knowledge Base
+                AI-Powered  Knowledge Base
               </Badge>
             </motion.div>
 
@@ -277,7 +277,7 @@ export default function Home() {
                 className="bg-linear-to-r from-violet-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent animate-gradient-shift"
                 style={{ backgroundSize: "200% 200%" }}
               >
-                Medical Documents
+                 Documents
               </span>
             </motion.h1>
 
@@ -291,7 +291,7 @@ export default function Home() {
               <span className="font-semibold text-slate-800">
                 verified source citations
               </span>
-              . Built for the  medical student.
+              . Built for the   student.
             </motion.p>
 
             <motion.div
@@ -486,7 +486,7 @@ export default function Home() {
               variants={fadeUp}
               className="text-3xl font-bold tracking-tight sm:text-4xl font-[Syne]"
             >
-              Built For Every Medical Role
+              Built For Every  Role
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-3 text-slate-400 text-lg">
               From students to hospital teams, StudyRx adapts to your workflow
@@ -599,7 +599,7 @@ export default function Home() {
             <div className="relative z-10">
               <h2 className="text-3xl font-bold sm:text-5xl leading-tight font-[Syne]">
                 Ready to query your <br />
-                medical data?
+                 data?
               </h2>
               <p className="mt-6 text-violet-100 text-lg opacity-90">
                 Join thousands of healthcare professionals today.

@@ -112,10 +112,10 @@ export default function LoginPage() {
               className="text-center max-w-sm glass-dark rounded-2xl p-7 shadow-2xl"
             >
               <h2 className="text-xl font-bold text-white mb-2 font-[Syne]">
-                AI-Powered Medical Insights
+                AI-Powered  Insights
               </h2>
               <p className="text-violet-200 text-sm leading-relaxed">
-                Unlock the data within your medical records using secure, advanced RAG technology.
+                Unlock the data within your  records using secure, advanced RAG technology.
               </p>
             </motion.div>
           </div>

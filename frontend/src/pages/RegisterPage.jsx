@@ -115,10 +115,10 @@ export default function RegisterPage() {
               className="text-center max-w-sm glass-dark rounded-2xl p-7 shadow-2xl"
             >
               <h2 className="text-xl font-bold text-white mb-2 font-[Syne]">
-                AI-Powered Medical Insights
+                AI-Powered  Insights
               </h2>
               <p className="text-violet-200 text-sm leading-relaxed">
-                Chat with your medical documents using advanced RAG technology to chat with own data source.
+                Chat with your  documents using advanced RAG technology to chat with own data source.
               </p>
             </motion.div>
           </div>
@@ -147,7 +147,7 @@ export default function RegisterPage() {
               </Link>
 
               <motion.h1 variants={fadeUp} className="text-2xl font-bold text-slate-900 text-center font-[Syne]">Create your account</motion.h1>
-              <motion.p variants={fadeUp} className="text-slate-500 text-center mt-2 mb-8">Start chatting with your medical documents</motion.p>
+              <motion.p variants={fadeUp} className="text-slate-500 text-center mt-2 mb-8">Start chatting with your  documents</motion.p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name */}

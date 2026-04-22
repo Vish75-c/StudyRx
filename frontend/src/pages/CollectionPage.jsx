@@ -87,7 +87,7 @@ export default function CollectionPage() {
         >
           <motion.div variants={fadeUp}>
             <h1 className="text-2xl font-bold text-slate-900 font-[Syne]">Collections</h1>
-            <p className="mt-1 text-slate-500">Organise your medical documents by topic</p>
+            <p className="mt-1 text-slate-500">Organise your  documents by topic</p>
           </motion.div>
           <motion.div variants={fadeUp}>
             <button
